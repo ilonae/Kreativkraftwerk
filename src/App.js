@@ -1,0 +1,36 @@
+import React, { useState } from 'react';
+import './App.css';
+import NavBar from './components/NavBar';
+import Exhibitions from './pages/Exhibitions';
+import Projects from './pages/Projects';
+import CollectiveNetwork from './pages/CollectiveNetwork';
+import Approach from './pages/Approach';
+import Contact from './pages/Contact';
+import About from './pages/About';
+
+function App() {
+  const [activeTab, setActiveTab] = useState('exhibitions');
+
+  const renderPage = () => {
+    switch (activeTab) {
+      case 'exhibitions':       return <Exhibitions />;
+      case 'projects':          return <Projects />;
+      case 'collective-network':return <CollectiveNetwork />;
+      case 'approach':          return <Approach />;
+      case 'contact':           return <Contact />;
+      case 'about':             return <About />;
+      default:                  return <Exhibitions />;
+    }
+  };
+
+  return (
+    <div className="App min-h-screen bg-white text-kkw-black">
+      <NavBar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <main>
+        {renderPage()}
+      </main>
+    </div>
+  );
+}
+
+export default App;

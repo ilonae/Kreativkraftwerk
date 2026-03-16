@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+    color: #0a0a0a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #E8006F;
+    color: #ffffff;
+  }
+}
+
+@layer components {
+  .nav-tab {
+    @apply flex-1 py-3 text-xs tracking-nav uppercase font-medium transition-all duration-200 border-r border-black last:border-r-0;
+  }
+
+  .nav-tab-active {
+    @apply bg-black text-white;
+  }
+
+  .nav-tab-inactive {
+    @apply bg-white text-black hover:bg-kkw-gray;
+  }
+
+  .exhibition-card {
+    @apply bg-white group cursor-pointer overflow-hidden;
+  }
+
+  .exhibition-card:hover .card-image-overlay {
+    opacity: 0.08;
+  }
+
+  .card-image-overlay {
+    @apply absolute inset-0 bg-black opacity-0 transition-opacity duration-300;
+  }
+
+  .artist-card {
+    @apply bg-white border-b border-gray-100 pb-6;
+  }
+
+  .section-label {
+    @apply text-xs tracking-label uppercase font-medium text-gray-400;
+  }
+
+  .page-heading {
+    @apply text-4xl font-bold tracking-display uppercase;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #0a0a0a;
+}
