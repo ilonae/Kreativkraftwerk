@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ExhibitionDetail from '../components/ExhibitionDetail';
+import { useLang } from '../context/LanguageContext';
+import translations from '../i18n/translations';
 
 interface Exhibition {
   id: number;
@@ -93,6 +95,8 @@ export default function Exhibitions() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const { lang } = useLang();
+  const t = translations[lang].exhibitions;
 
   /* Show detail view */
   if (selectedId !== null) {
@@ -125,14 +129,14 @@ export default function Exhibitions() {
         <div className="flex items-center gap-2 text-xs tracking-label uppercase text-gray-500">
           <span className="font-semibold text-black">Berlin</span>
           <span className="text-kkw-pink">→</span>
-          <span>Exhibitions</span>
+          <span>{t.breadcrumb}</span>
         </div>
         <div className="flex items-center gap-3">
           {searchOpen && (
             <input
               autoFocus
               type="text"
-              placeholder="Search exhibitions…"
+              placeholder={t.searchPlaceholder}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="text-xs tracking-label border-b border-black outline-none px-1 py-0.5 w-48 placeholder-gray-300"
@@ -142,7 +146,7 @@ export default function Exhibitions() {
             onClick={() => { setSearchOpen(!searchOpen); if (searchOpen) setSearchQuery(''); }}
             className="text-xs tracking-label uppercase font-semibold border border-black px-3 py-1 hover:bg-black hover:text-white transition-colors duration-200"
           >
-            {searchOpen ? 'Close' : 'Search'}
+            {searchOpen ? t.close : t.search}
           </button>
         </div>
       </div>
@@ -174,7 +178,7 @@ export default function Exhibitions() {
               <div className="max-w-2xl">
                 <div className="flex items-center gap-3 mb-6">
                   <span className="text-xs tracking-label uppercase font-semibold text-kkw-pink border border-kkw-pink px-3 py-1">
-                    Featured Exhibition
+                    {t.featuredTag}
                   </span>
                   <span className="text-xs tracking-label uppercase text-gray-400">
                     Berlin, 2024
@@ -194,15 +198,15 @@ export default function Exhibitions() {
                 <div className="flex gap-6 text-center">
                   <div>
                     <p className="text-3xl font-bold text-kkw-pink">900+</p>
-                    <p className="text-xs tracking-label uppercase text-gray-400">Visitors</p>
+                    <p className="text-xs tracking-label uppercase text-gray-400">{t.visitors}</p>
                   </div>
                   <div>
                     <p className="text-3xl font-bold text-white">5</p>
-                    <p className="text-xs tracking-label uppercase text-gray-400">Days</p>
+                    <p className="text-xs tracking-label uppercase text-gray-400">{t.days}</p>
                   </div>
                 </div>
                 <span className="text-xs tracking-label uppercase font-semibold border border-white border-opacity-40 px-4 py-2 group-hover:border-kkw-pink group-hover:text-kkw-pink transition-colors duration-200">
-                  View Exhibition →
+                  {t.viewExhibition}
                 </span>
               </div>
             </div>
@@ -215,7 +219,7 @@ export default function Exhibitions() {
         <div>
           <div className="px-6 py-3 border-b border-gray-100">
             <span className="text-xs tracking-label uppercase font-semibold text-kkw-pink">
-              Currently Showing
+              {t.currentlyShowing}
             </span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b border-black">
@@ -226,6 +230,8 @@ export default function Exhibitions() {
                 index={i}
                 total={current.length}
                 onClick={() => setSelectedId(ex.id)}
+                currentLabel={t.currentlyShowing}
+                viewLabel={t.view}
               />
             ))}
           </div>
@@ -237,7 +243,7 @@ export default function Exhibitions() {
         <div>
           <div className="px-6 py-3 border-b border-gray-100">
             <span className="text-xs tracking-label uppercase font-semibold text-gray-400">
-              Past Exhibitions
+              {t.pastExhibitions}
             </span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b border-black">
@@ -248,6 +254,8 @@ export default function Exhibitions() {
                 index={i}
                 total={arr.length}
                 onClick={() => setSelectedId(ex.id)}
+                currentLabel={t.currentlyShowing}
+                viewLabel={t.view}
               />
             ))}
           </div>
@@ -256,7 +264,7 @@ export default function Exhibitions() {
 
       {searchQuery && allRegular.length === 0 && (
         <div className="px-6 py-24 text-center">
-          <p className="text-xs tracking-label uppercase text-gray-400">No exhibitions found</p>
+          <p className="text-xs tracking-label uppercase text-gray-400">{t.noResults}</p>
         </div>
       )}
     </div>
@@ -269,11 +277,15 @@ function ExhibitionCard({
   index: i,
   total,
   onClick,
+  currentLabel,
+  viewLabel,
 }: {
   exhibition: Exhibition;
   index: number;
   total: number;
   onClick: () => void;
+  currentLabel: string;
+  viewLabel: string;
 }) {
   return (
     <div
@@ -296,7 +308,7 @@ function ExhibitionCard({
         />
         <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <span className="text-white text-xs tracking-label uppercase bg-black bg-opacity-60 px-2 py-1">
-            View →
+            {viewLabel}
           </span>
         </div>
       </div>
@@ -305,7 +317,7 @@ function ExhibitionCard({
       <div className="px-4 py-4 border-t border-gray-100">
         {ex.current && (
           <span className="block text-xs tracking-label uppercase text-kkw-pink font-semibold mb-1">
-            Currently Showing
+            {currentLabel}
           </span>
         )}
         <h3 className="text-sm font-bold leading-tight mb-1 group-hover:text-kkw-pink transition-colors duration-200">
