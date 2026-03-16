@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useLang } from '../context/LanguageContext';
+import translations from '../i18n/translations';
 
 type FormState = {
   name: string;
@@ -9,16 +11,6 @@ type FormState = {
 
 type FieldName = keyof FormState;
 
-const subjectOptions = [
-  'General Enquiry',
-  'Exhibition Proposal',
-  'Membership / Joining the Collective',
-  'Press & Media',
-  'Collaboration Proposal',
-  'Workshop / Event',
-  'Other',
-];
-
 export default function Contact() {
   const [form, setForm] = useState<FormState>({
     name: '',
@@ -27,6 +19,8 @@ export default function Contact() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const { lang } = useLang();
+  const t = translations[lang].contact;
 
   const handleChange = (field: FieldName, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -43,18 +37,18 @@ export default function Contact() {
       <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-200">
         <span className="text-xs tracking-label uppercase font-semibold text-black">Berlin</span>
         <span className="text-kkw-pink">→</span>
-        <span className="text-xs tracking-label uppercase text-gray-500">Contact</span>
+        <span className="text-xs tracking-label uppercase text-gray-500">{t.breadcrumb}</span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-8rem)]">
         {/* Left: address & info */}
         <div className="px-8 py-12 border-b lg:border-b-0 lg:border-r border-black">
-          <h2 className="text-2xl font-bold tracking-display uppercase mb-10">Get in Touch</h2>
+          <h2 className="text-2xl font-bold tracking-display uppercase mb-10">{t.getInTouch}</h2>
 
           <div className="space-y-8">
             <div>
               <span className="block text-xs tracking-label uppercase font-semibold text-kkw-pink mb-2">
-                Location
+                {t.location}
               </span>
               <p className="text-sm text-gray-700 leading-relaxed">
                 KreativKraftwerk<br />
@@ -65,7 +59,7 @@ export default function Contact() {
 
             <div>
               <span className="block text-xs tracking-label uppercase font-semibold text-kkw-pink mb-2">
-                General Contact
+                {t.generalContact}
               </span>
               <a
                 href="mailto:hello@kreativkraftwerk.de"
@@ -77,7 +71,7 @@ export default function Contact() {
 
             <div>
               <span className="block text-xs tracking-label uppercase font-semibold text-kkw-pink mb-2">
-                Press & Media
+                {t.pressMedia}
               </span>
               <a
                 href="mailto:press@kreativkraftwerk.de"
@@ -89,18 +83,18 @@ export default function Contact() {
 
             <div>
               <span className="block text-xs tracking-label uppercase font-semibold text-kkw-pink mb-2">
-                Studio Hours
+                {t.studioHours}
               </span>
               <p className="text-sm text-gray-700 leading-relaxed">
-                Tuesday – Friday, 11:00 – 19:00<br />
-                Saturday, 12:00 – 17:00<br />
-                <span className="text-gray-400">Closed Sunday & Monday</span>
+                {t.studioHoursLine1}<br />
+                {t.studioHoursLine2}<br />
+                <span className="text-gray-400">{t.studioHoursClosed}</span>
               </p>
             </div>
 
             <div>
               <span className="block text-xs tracking-label uppercase font-semibold text-kkw-pink mb-3">
-                Follow
+                {t.follow}
               </span>
               <div className="flex gap-4">
                 {['Instagram', 'Newsletter', 'LinkedIn'].map(platform => (
@@ -120,33 +114,33 @@ export default function Contact() {
         <div className="px-8 py-12">
           {submitted ? (
             <div className="flex flex-col items-start justify-center h-full">
-              <span className="text-kkw-pink text-xs tracking-label uppercase font-semibold mb-4">Message Sent</span>
-              <h3 className="text-2xl font-bold mb-4">Thank you for reaching out.</h3>
+              <span className="text-kkw-pink text-xs tracking-label uppercase font-semibold mb-4">{t.sentTag}</span>
+              <h3 className="text-2xl font-bold mb-4">{t.sentHeading}</h3>
               <p className="text-sm text-gray-500 mb-8 max-w-sm">
-                We've received your message and will be in touch soon. We look forward to the exchange.
+                {t.sentBody}
               </p>
               <button
                 onClick={() => { setSubmitted(false); setForm({ name: '', email: '', subject: '', message: '' }); }}
                 className="text-xs tracking-label uppercase font-semibold border border-black px-4 py-2 hover:bg-black hover:text-white transition-colors duration-200"
               >
-                Send Another Message
+                {t.sendAnother}
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
-              <h2 className="text-2xl font-bold tracking-display uppercase mb-8">Kontaktformular</h2>
+              <h2 className="text-2xl font-bold tracking-display uppercase mb-8">{t.formTitle}</h2>
 
               {/* Name */}
               <div>
                 <label className="block text-xs tracking-label uppercase font-semibold mb-2">
-                  Name <span className="text-kkw-pink">*</span>
+                  {t.name} <span className="text-kkw-pink">*</span>
                 </label>
                 <input
                   type="text"
                   required
                   value={form.name}
                   onChange={e => handleChange('name', e.target.value)}
-                  placeholder="Your name"
+                  placeholder={t.yourName}
                   className="w-full border-b border-black outline-none py-2 text-sm placeholder-gray-300 focus:border-kkw-pink transition-colors duration-200 bg-transparent"
                 />
               </div>
@@ -154,14 +148,14 @@ export default function Contact() {
               {/* Email */}
               <div>
                 <label className="block text-xs tracking-label uppercase font-semibold mb-2">
-                  Email <span className="text-kkw-pink">*</span>
+                  {t.email} <span className="text-kkw-pink">*</span>
                 </label>
                 <input
                   type="email"
                   required
                   value={form.email}
                   onChange={e => handleChange('email', e.target.value)}
-                  placeholder="your@email.com"
+                  placeholder={t.yourEmail}
                   className="w-full border-b border-black outline-none py-2 text-sm placeholder-gray-300 focus:border-kkw-pink transition-colors duration-200 bg-transparent"
                 />
               </div>
@@ -169,7 +163,7 @@ export default function Contact() {
               {/* Subject */}
               <div>
                 <label className="block text-xs tracking-label uppercase font-semibold mb-2">
-                  Subject <span className="text-kkw-pink">*</span>
+                  {t.subject} <span className="text-kkw-pink">*</span>
                 </label>
                 <select
                   required
@@ -177,8 +171,8 @@ export default function Contact() {
                   onChange={e => handleChange('subject', e.target.value)}
                   className="w-full border-b border-black outline-none py-2 text-sm text-gray-700 focus:border-kkw-pink transition-colors duration-200 bg-transparent appearance-none cursor-pointer"
                 >
-                  <option value="" disabled>Select a subject</option>
-                  {subjectOptions.map(opt => (
+                  <option value="" disabled>{t.selectSubject}</option>
+                  {t.subjectOptions.map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
                   ))}
                 </select>
@@ -187,13 +181,13 @@ export default function Contact() {
               {/* Message */}
               <div>
                 <label className="block text-xs tracking-label uppercase font-semibold mb-2">
-                  Message <span className="text-kkw-pink">*</span>
+                  {t.message} <span className="text-kkw-pink">*</span>
                 </label>
                 <textarea
                   required
                   value={form.message}
                   onChange={e => handleChange('message', e.target.value)}
-                  placeholder="Your message…"
+                  placeholder={t.yourMessage}
                   rows={5}
                   className="w-full border-b border-black outline-none py-2 text-sm placeholder-gray-300 focus:border-kkw-pink transition-colors duration-200 bg-transparent resize-none"
                 />
@@ -203,7 +197,7 @@ export default function Contact() {
                 type="submit"
                 className="mt-2 bg-black text-white text-xs tracking-nav uppercase font-semibold px-8 py-3 hover:bg-kkw-pink transition-colors duration-200"
               >
-                Send Message →
+                {t.send}
               </button>
             </form>
           )}

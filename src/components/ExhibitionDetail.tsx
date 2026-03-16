@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useLang } from '../context/LanguageContext';
+import translations from '../i18n/translations';
 
 interface ExhibitionDetailProps {
   exhibitionId: number;
@@ -9,7 +11,6 @@ interface ExhibitionDetailProps {
 const SPITLER = {
   id: 1,
   title: "Spit on H*tler's Grave",
-  titleDE: "Spit on H*tler's Grave",
   subtitle: 'inside threating history — outside totalarity — besides democracy',
   dates: '19. – 24. September 2024',
   venue: 'Stadtwerkstatt Friedrichshain-Kreuzberg',
@@ -80,15 +81,25 @@ const SPITLER = {
       ],
     },
   ],
-  insideOutsideBody: [
-    'Inside der Gefühlslage des Individuums, Outside im Rechtsdruck von Politik und der Gesellschaft ergibt sich Besides ein Gefühl der Ohnmächtigkeit.',
-    'Inside eines Bezirks, der nicht zum Stadtbild des Bundeskanzlers passt, Outside in der Stadt des ehemaligen Zentrums der nationalsozialistischen Vergangenheit, ergibt sich Besides eine neue Form des Rassismus und Diskriminierung.',
-    'Inside eines Landes mit totalitären Narben, Outside einer Welt, in der es derzeit mehr Autokratien als Demokratien gibt, ergibt sich Besides eine Sympathie zur neuen Rechten.',
-  ],
+  insideOutsideBody: {
+    de: [
+      'Inside der Gefühlslage des Individuums, Outside im Rechtsdruck von Politik und der Gesellschaft ergibt sich Besides ein Gefühl der Ohnmächtigkeit.',
+      'Inside eines Bezirks, der nicht zum Stadtbild des Bundeskanzlers passt, Outside in der Stadt des ehemaligen Zentrums der nationalsozialistischen Vergangenheit, ergibt sich Besides eine neue Form des Rassismus und Diskriminierung.',
+      'Inside eines Landes mit totalitären Narben, Outside einer Welt, in der es derzeit mehr Autokratien als Demokratien gibt, ergibt sich Besides eine Sympathie zur neuen Rechten.',
+    ],
+    en: [
+      'Inside the emotional state of the individual, Outside the political pressure of society and the state, there emerges Besides a feeling of powerlessness.',
+      'Inside a district that does not fit the Chancellor\'s image of the city, Outside in the city that was once the centre of the National Socialist past, there emerges Besides a new form of racism and discrimination.',
+      'Inside a country with totalitarian scars, Outside a world in which there are currently more autocracies than democracies, there emerges Besides a sympathy towards the new right.',
+    ],
+  },
 };
 
 /* ─── Generic placeholder detail ────────────────────────────────────── */
 function GenericDetail({ id, onBack }: { id: number; onBack: () => void }) {
+  const { lang } = useLang();
+  const t = translations[lang].exhibitionDetail;
+
   return (
     <div className="min-h-screen bg-white">
       <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-3">
@@ -96,13 +107,13 @@ function GenericDetail({ id, onBack }: { id: number; onBack: () => void }) {
           onClick={onBack}
           className="text-xs tracking-label uppercase font-semibold hover:text-kkw-pink transition-colors duration-200 flex items-center gap-2"
         >
-          ← Back
+          {t.back}
         </button>
         <span className="text-gray-300">|</span>
-        <span className="text-xs tracking-label uppercase text-gray-400">Exhibition</span>
+        <span className="text-xs tracking-label uppercase text-gray-400">{t.exhibition}</span>
       </div>
       <div className="px-8 py-24 text-center">
-        <p className="text-xs tracking-label uppercase text-gray-400">Exhibition #{id} — Detail view coming soon</p>
+        <p className="text-xs tracking-label uppercase text-gray-400">{t.comingSoon}</p>
       </div>
     </div>
   );
@@ -110,7 +121,8 @@ function GenericDetail({ id, onBack }: { id: number; onBack: () => void }) {
 
 /* ─── Main component ─────────────────────────────────────────────────── */
 export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDetailProps) {
-  const [lang, setLang] = useState<'de' | 'en'>('de');
+  const { lang } = useLang();
+  const t = translations[lang].exhibitionDetail;
 
   if (exhibitionId !== 1) {
     return <GenericDetail id={exhibitionId} onBack={onBack} />;
@@ -122,41 +134,22 @@ export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDet
     <div className="min-h-screen bg-white">
 
       {/* ── Breadcrumb / back ── */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onBack}
-            className="text-xs tracking-label uppercase font-semibold hover:text-kkw-pink transition-colors duration-200 flex items-center gap-2"
-          >
-            ← Exhibitions
-          </button>
-          <span className="text-gray-200">|</span>
-          <span className="text-xs tracking-label uppercase text-gray-400 hidden sm:inline">{ex.title}</span>
-        </div>
-        {/* Language toggle */}
-        <div className="flex items-center gap-0 border border-black">
-          <button
-            onClick={() => setLang('de')}
-            className={`px-3 py-1 text-xs tracking-label uppercase font-semibold transition-colors duration-150 border-r border-black
-              ${lang === 'de' ? 'bg-black text-white' : 'bg-white text-black hover:bg-kkw-gray'}`}
-          >
-            DE
-          </button>
-          <button
-            onClick={() => setLang('en')}
-            className={`px-3 py-1 text-xs tracking-label uppercase font-semibold transition-colors duration-150
-              ${lang === 'en' ? 'bg-black text-white' : 'bg-white text-black hover:bg-kkw-gray'}`}
-          >
-            EN
-          </button>
-        </div>
+      <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-200">
+        <button
+          onClick={onBack}
+          className="text-xs tracking-label uppercase font-semibold hover:text-kkw-pink transition-colors duration-200 flex items-center gap-2"
+        >
+          {t.back}
+        </button>
+        <span className="text-gray-200">|</span>
+        <span className="text-xs tracking-label uppercase text-gray-400 hidden sm:inline">{ex.title}</span>
       </div>
 
       {/* ── Hero ── */}
       <div className={`bg-gradient-to-br ${ex.gradient} text-white px-8 py-16 md:py-24`}>
         <div className="max-w-4xl">
           <span className="inline-block text-xs tracking-label uppercase font-semibold text-kkw-pink border border-kkw-pink px-3 py-1 mb-6">
-            Exhibition — {ex.dates}
+            {t.exhibition} — {ex.dates}
           </span>
           <h1 className="text-4xl md:text-6xl font-bold leading-none mb-4 tracking-tight">
             {ex.title}
@@ -168,9 +161,9 @@ export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDet
           {/* Stats */}
           <div className="flex flex-wrap gap-0 mt-8 border border-white border-opacity-20">
             {[
-              { label: 'Visitors', value: ex.visitors },
-              { label: 'Duration', value: ex.duration },
-              { label: 'Venue', value: ex.venue },
+              { label: t.visitors, value: ex.visitors },
+              { label: lang === 'de' ? 'Dauer' : 'Duration', value: ex.duration },
+              { label: lang === 'de' ? 'Ort' : 'Venue', value: ex.venue },
               { label: 'Partner', value: ex.partner },
             ].map((s, i) => (
               <div
@@ -208,7 +201,7 @@ export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDet
 
         {/* Inside/Outside paragraphs */}
         <div className="px-8 py-8 border-t border-white border-opacity-10 space-y-4">
-          {ex.insideOutsideBody.map((para, i) => (
+          {(lang === 'de' ? ex.insideOutsideBody.de : ex.insideOutsideBody.en).map((para, i) => (
             <p key={i} className="text-sm text-gray-400 leading-relaxed max-w-3xl">
               {para}
             </p>
@@ -227,7 +220,7 @@ export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDet
       <div className="grid grid-cols-1 md:grid-cols-2 border-b border-black">
         <div className="px-8 py-12 border-b md:border-b-0 md:border-r border-gray-100">
           <span className="block text-xs tracking-label uppercase font-semibold text-kkw-pink mb-6">
-            {lang === 'de' ? 'Ausstellungskonzept' : 'Exhibition Concept'}
+            {t.concept}
           </span>
           <p className="text-sm text-gray-600 leading-relaxed mb-6">
             {lang === 'de' ? ex.conceptDE : ex.conceptEN}
@@ -238,20 +231,21 @@ export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDet
         </div>
         <div className="px-8 py-12">
           <span className="block text-xs tracking-label uppercase font-semibold text-kkw-pink mb-6">
-            {lang === 'de' ? 'Aufbau' : 'Structure'}
+            {t.structure}
           </span>
           <p className="text-sm text-gray-600 leading-relaxed">
-            {lang === 'de'
-              ? 'Der theoretische Teil der Ausstellung gibt den gezeigten künstlerischen Positionen einen thematischen Rahmen. Angefangen beim Themenblock Kontinuitäten über Reaktionen hin zu lösungsorientierten Aktionen — inkl. einer Protestlounge mit Infomaterialien zur Aufklärung.'
-              : 'The theoretical section provides a thematic framework for the artistic works. Moving from Continuities through Reactions toward action-oriented Actions — including a protest lounge with informational materials.'
-            }
+            {t.structureBody}
           </p>
           <div className="mt-8 space-y-3">
             {ex.sections.map((s, i) => (
               <div key={s.name} className="flex items-center gap-4">
                 <span className="text-xs font-bold text-kkw-pink w-6 shrink-0">{`0${i + 1}`}</span>
-                <span className="text-xs tracking-label uppercase font-semibold text-black">{s.name}</span>
-                <span className="text-xs text-gray-400 hidden sm:inline">— {lang === 'de' ? s.description.split('.')[0] : s.descriptionEN.split('.')[0]}</span>
+                <span className="text-xs tracking-label uppercase font-semibold text-black">
+                  {lang === 'de' ? s.name : s.nameEN}
+                </span>
+                <span className="text-xs text-gray-400 hidden sm:inline">
+                  — {lang === 'de' ? s.description.split('.')[0] : s.descriptionEN.split('.')[0]}
+                </span>
               </div>
             ))}
           </div>
@@ -268,10 +262,10 @@ export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDet
             {/* Section header */}
             <div className="mb-6">
               <span className="block text-xs tracking-label uppercase font-bold text-kkw-pink mb-1">
-                0{i + 1} — {section.name}
+                0{i + 1} — {lang === 'de' ? section.name : section.nameEN}
               </span>
               <span className="block text-xs tracking-label uppercase text-gray-400">
-                {section.nameEN}
+                {lang === 'de' ? section.nameEN : section.name}
               </span>
             </div>
             <p className="text-xs text-gray-500 leading-relaxed mb-6">
@@ -300,15 +294,15 @@ export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDet
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span className="block text-xs tracking-label uppercase font-semibold text-kkw-pink mb-2">
-              {lang === 'de' ? 'Erstmals gezeigt' : 'First shown'}
+              {t.firstShown}
             </span>
             <p className="text-sm font-bold">{ex.venue}, Berlin</p>
-            <p className="text-sm text-gray-500">{lang === 'de' ? 'in Kooperation mit' : 'in cooperation with'} {ex.partner}</p>
-            <p className="text-xs text-gray-400 mt-1">{ex.dates} · {ex.visitors} {lang === 'de' ? 'Besucher*innen' : 'visitors'}</p>
+            <p className="text-sm text-gray-500">{t.cooperationWith} {ex.partner}</p>
+            <p className="text-xs text-gray-400 mt-1">{ex.dates} · {ex.visitors} {t.visitors}</p>
           </div>
           <div className="flex gap-4 flex-wrap">
             <span className="text-xs tracking-label uppercase font-semibold border border-black px-4 py-2">
-              {lang === 'de' ? 'Kuratiert von' : 'Curated by'} KreativKraftwerk
+              {t.curatedBy} KreativKraftwerk
             </span>
             <span className="text-xs tracking-label uppercase font-semibold bg-kkw-pink text-white px-4 py-2">
               Berlin 2024
@@ -323,10 +317,10 @@ export default function ExhibitionDetail({ exhibitionId, onBack }: ExhibitionDet
           onClick={onBack}
           className="text-xs tracking-label uppercase font-semibold border border-black px-4 py-2 hover:bg-black hover:text-white transition-colors duration-200"
         >
-          ← {lang === 'de' ? 'Zurück zu Ausstellungen' : 'Back to Exhibitions'}
+          {t.backFull}
         </button>
         <p className="text-xs text-gray-400 tracking-label uppercase">
-          {lang === 'de' ? 'Alle Ausstellungen von KreativKraftwerk, Berlin' : 'All exhibitions by KreativKraftwerk, Berlin'}
+          {t.allExhibitions}
         </p>
       </div>
 
