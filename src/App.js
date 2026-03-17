@@ -7,29 +7,32 @@ import CollectiveNetwork from './pages/CollectiveNetwork';
 import Approach from './pages/Approach';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
   const [activeTab, setActiveTab] = useState('exhibitions');
 
   const renderPage = () => {
     switch (activeTab) {
-      case 'exhibitions':       return <Exhibitions />;
-      case 'projects':          return <Projects />;
-      case 'collective-network':return <CollectiveNetwork />;
-      case 'approach':          return <Approach />;
-      case 'contact':           return <Contact />;
-      case 'about':             return <About />;
-      default:                  return <Exhibitions />;
+      case 'exhibitions':        return <Exhibitions />;
+      case 'projects':           return <Projects />;
+      case 'collective-network': return <CollectiveNetwork />;
+      case 'approach':           return <Approach />;
+      case 'contact':            return <Contact />;
+      case 'about':              return <About />;
+      default:                   return <Exhibitions />;
     }
   };
 
   return (
-    <div className="App min-h-screen bg-white text-kkw-black">
-      <NavBar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main>
-        {renderPage()}
-      </main>
-    </div>
+    <LanguageProvider>
+      <div className="App min-h-screen bg-white text-kkw-black">
+        <NavBar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <main>
+          {renderPage()}
+        </main>
+      </div>
+    </LanguageProvider>
   );
 }
 
