@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLang } from '../context/LanguageContext';
 import translations from '../i18n/translations';
 import { useProjects } from '../hooks/useProjects';
-import ExhibitionDetail from '../components/ExhibitionDetail';
+import ProjectDetail from '../components/ProjectDetail';
 import type { Project } from '../data/types';
 
 const statusColors: Record<string, string> = {
@@ -18,7 +18,7 @@ export default function Projects() {
   const [selected, setSelected] = useState<Project | null>(null);
 
   if (selected) {
-    return <ExhibitionDetail project={selected} onBack={() => setSelected(null)} />;
+    return <ProjectDetail project={selected} onBack={() => setSelected(null)} />;
   }
 
   const featured  = projects.find(p => p.featured);
