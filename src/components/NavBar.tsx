@@ -8,7 +8,6 @@ interface NavBarProps {
 }
 
 const tabIds = [
-  'exhibitions',
   'projects',
   'collective-network',
   'approach',
@@ -21,16 +20,9 @@ export default function NavBar({ activeTab, setActiveTab }: NavBarProps) {
   const { lang, setLang } = useLang();
   const t = translations[lang].nav;
 
-  const tabs = tabIds.map(id => ({
-    id,
-    label: t.tabs[id.replace('-', '') as never] ??
-      t.tabs[id as keyof typeof t.tabs],
-  }));
-
   // Build tab label from translations by tab id
   const tabLabel = (id: string): string => {
     const map: Record<string, string> = {
-      exhibitions: t.tabs.exhibitions,
       projects: t.tabs.projects,
       'collective-network': t.tabs.collectiveNetwork,
       approach: t.tabs.approach,
@@ -45,7 +37,7 @@ export default function NavBar({ activeTab, setActiveTab }: NavBarProps) {
       {/* Top bar: logo + city + language toggle */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-black">
         <button
-          onClick={() => setActiveTab('exhibitions')}
+          onClick={() => setActiveTab('projects')}
           className="text-base font-bold tracking-display uppercase hover:text-kkw-pink transition-colors duration-200"
         >
           KreativKraftwerk
