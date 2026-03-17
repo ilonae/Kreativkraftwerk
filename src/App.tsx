@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './App.css';
 import NavBar from './components/NavBar';
 import Projects from './pages/Projects';
 import CollectiveNetwork from './pages/CollectiveNetwork';
