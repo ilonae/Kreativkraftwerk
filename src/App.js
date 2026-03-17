@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import NavBar from './components/NavBar';
-import Exhibitions from './pages/Exhibitions';
 import Projects from './pages/Projects';
 import CollectiveNetwork from './pages/CollectiveNetwork';
 import Approach from './pages/Approach';
@@ -10,17 +9,16 @@ import About from './pages/About';
 import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('exhibitions');
+  const [activeTab, setActiveTab] = useState('projects');
 
   const renderPage = () => {
     switch (activeTab) {
-      case 'exhibitions':        return <Exhibitions />;
       case 'projects':           return <Projects />;
       case 'collective-network': return <CollectiveNetwork />;
       case 'approach':           return <Approach />;
       case 'contact':            return <Contact />;
       case 'about':              return <About />;
-      default:                   return <Exhibitions />;
+      default:                   return <Projects />;
     }
   };
 
