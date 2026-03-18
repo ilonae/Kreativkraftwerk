@@ -3,6 +3,18 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx,html}",
   ],
+  // Gradient and colour classes that come from Contentful data at runtime
+  // are never present as static strings in source files, so Tailwind's JIT
+  // would strip them. The safelist patterns below force-include every
+  // from-*, via-*, to-* and bg-* utility across all colour shades so that
+  // any gradient string stored in Contentful renders correctly.
+  safelist: [
+    { pattern: /^from-/ },
+    { pattern: /^via-/ },
+    { pattern: /^to-/ },
+    { pattern: /^bg-gradient-to-/ },
+    { pattern: /^bg-/ },
+  ],
   theme: {
     extend: {
       colors: {

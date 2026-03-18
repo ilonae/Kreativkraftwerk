@@ -21,4 +21,5 @@ export const CONTENT_TYPES = {
   EXHIBITION: 'exhibition',
   ARTIST:     'artist',
   PROJECT:    'project',
+  MILESTONE:  'milestone',
 } as const;
