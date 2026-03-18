@@ -4,7 +4,6 @@ const translations = {
   en: {
     nav: {
       tabs: {
-        exhibitions: 'Exhibitions',
         projects: 'Projects',
         collectiveNetwork: 'Collective Network',
         approach: 'Approach',
@@ -15,26 +14,12 @@ const translations = {
       menu: 'Menu',
       close: 'Close',
     },
-    exhibitions: {
-      breadcrumb: 'Exhibitions',
-      search: 'Search',
-      close: 'Close',
-      searchPlaceholder: 'Search exhibitions…',
-      featuredTag: 'Featured Exhibition',
-      currentlyShowing: 'Currently Showing',
-      pastExhibitions: 'Past Exhibitions',
-      visitors: 'Visitors',
-      days: 'Days',
-      viewExhibition: 'View Exhibition →',
-      noResults: 'No exhibitions found',
-      view: 'View →',
-    },
-    exhibitionDetail: {
-      back: '← Exhibitions',
-      backFull: '← Back to Exhibitions',
-      allExhibitions: 'All exhibitions by KreativKraftwerk, Berlin',
-      exhibition: 'Exhibition',
-      concept: 'Exhibition Concept',
+    projectDetail: {
+      back: '← Projects',
+      backFull: '← Back to Projects',
+      allProjects: 'All projects by KreativKraftwerk, Berlin',
+      project: 'Project',
+      concept: 'Project Concept',
       structure: 'Structure',
       firstShown: 'First shown',
       cooperationWith: 'in cooperation with',
@@ -42,7 +27,7 @@ const translations = {
       curatedBy: 'Curated by',
       structureBody:
         'The theoretical section provides a thematic framework for the artistic works. Moving from Continuities through Reactions toward action-oriented Actions — including a protest lounge with informational materials.',
-      comingSoon: 'Exhibition — Detail view coming soon',
+      comingSoon: 'Project — Detail view coming soon',
       de: 'DE',
       en: 'EN',
     },
@@ -78,18 +63,43 @@ const translations = {
         base: 'Base',
         members: 'Members',
         disciplines: 'Disciplines',
-        exhibitions: 'Exhibitions',
+        projects: 'Projects',
         futureLocations: 'Future Locations',
       },
     },
     approach: {
       breadcrumb: 'Approach',
-      heroTitle: 'Interdisciplinary. Community Based. Room as a Term.',
-      heroSubtitleHighlight: 'Community Based.',
       heroSubtitle:
         'KreativKraftwerk is an arts collective that understands practice as a shared condition. We come together across fields, backgrounds, and geographies to produce work that could not exist in isolation.',
       quote: '"A room is not empty when it holds the possibility of encounter."',
       quoteSource: '— KreativKraftwerk Manifesto, Berlin 2023',
+      principles: [
+        {
+          number: '01',
+          title: 'Interdisciplinary',
+          body: 'We reject the boundaries between disciplines. Art, architecture, technology, design, writing, and performance are not separate containers but overlapping territories. Our work thrives in the spaces between fields, where unexpected connections become generative force.',
+        },
+        {
+          number: '02',
+          title: 'Community Based',
+          body: 'The collective is not an institution — it is a community. We are shaped by the people within and around us, by the neighbourhoods we inhabit and the publics we engage. Our practice is accountable to the communities it touches.',
+        },
+        {
+          number: '03',
+          title: 'Room as a Term',
+          body: '"Room" for us is not simply physical space. It is permission — permission to experiment, to fail, to contradict, to grow. We create rooms: for artists, for ideas, for dialogue, for the unpredictable encounter. The room is the work.',
+        },
+        {
+          number: '04',
+          title: 'Process Over Product',
+          body: 'We value the making as much as the made. Our exhibitions, publications, and events document a process rather than resolve it. We keep questions open, invite revision, and resist the pressure of premature closure.',
+        },
+        {
+          number: '05',
+          title: 'Open Structure',
+          body: 'KreativKraftwerk operates through a loose, horizontal structure. Membership is fluid, collaboration is voluntary, and decision-making is shared. We are held together not by hierarchy but by shared curiosity and mutual commitment.',
+        },
+      ],
     },
     contact: {
       breadcrumb: 'Contact',
@@ -119,7 +129,7 @@ const translations = {
       sendAnother: 'Send Another Message',
       subjectOptions: [
         'General Enquiry',
-        'Exhibition Proposal',
+        'Project Proposal',
         'Membership / Joining the Collective',
         'Press & Media',
         'Collaboration Proposal',
@@ -140,7 +150,6 @@ const translations = {
   de: {
     nav: {
       tabs: {
-        exhibitions: 'Ausstellungen',
         projects: 'Projekte',
         collectiveNetwork: 'Kollektives Netzwerk',
         approach: 'Ansatz',
@@ -151,34 +160,20 @@ const translations = {
       menu: 'Menü',
       close: 'Schließen',
     },
-    exhibitions: {
-      breadcrumb: 'Ausstellungen',
-      search: 'Suchen',
-      close: 'Schließen',
-      searchPlaceholder: 'Ausstellungen suchen…',
-      featuredTag: 'Ausgewählte Ausstellung',
-      currentlyShowing: 'Aktuell zu sehen',
-      pastExhibitions: 'Vergangene Ausstellungen',
-      visitors: 'Besucher*innen',
-      days: 'Tage',
-      viewExhibition: 'Ausstellung ansehen →',
-      noResults: 'Keine Ausstellungen gefunden',
-      view: 'Ansehen →',
-    },
-    exhibitionDetail: {
-      back: '← Ausstellungen',
-      backFull: '← Zurück zu Ausstellungen',
-      allExhibitions: 'Alle Ausstellungen von KreativKraftwerk, Berlin',
-      exhibition: 'Ausstellung',
-      concept: 'Ausstellungskonzept',
+    projectDetail: {
+      back: '← Projekte',
+      backFull: '← Zurück zu Projekten',
+      allProjects: 'Alle Projekte von KreativKraftwerk, Berlin',
+      project: 'Projekt',
+      concept: 'Projektkonzept',
       structure: 'Aufbau',
       firstShown: 'Erstmals gezeigt',
       cooperationWith: 'in Kooperation mit',
       visitors: 'Besucher*innen',
       curatedBy: 'Kuratiert von',
       structureBody:
-        'Der theoretische Teil der Ausstellung gibt den gezeigten künstlerischen Positionen einen thematischen Rahmen. Angefangen beim Themenblock Kontinuitäten über Reaktionen hin zu lösungsorientierten Aktionen — inkl. einer Protestlounge mit Infomaterialien zur Aufklärung.',
-      comingSoon: 'Ausstellung — Detailansicht demnächst verfügbar',
+        'Der theoretische Teil des Projekts gibt den gezeigten künstlerischen Positionen einen thematischen Rahmen. Angefangen beim Themenblock Kontinuitäten über Reaktionen hin zu lösungsorientierten Aktionen — inkl. einer Protestlounge mit Infomaterialien zur Aufklärung.',
+      comingSoon: 'Projekt — Detailansicht demnächst verfügbar',
       de: 'DE',
       en: 'EN',
     },
@@ -214,19 +209,44 @@ const translations = {
         base: 'Standort',
         members: 'Mitglieder',
         disciplines: 'Disziplinen',
-        exhibitions: 'Ausstellungen',
+        projects: 'Projekte',
         futureLocations: 'Zukünftige Orte',
       },
     },
     approach: {
       breadcrumb: 'Ansatz',
-      heroTitle: 'Interdisziplinär. Gemeinschaftsbasiert. Raum als Begriff.',
-      heroSubtitleHighlight: 'Gemeinschaftsbasiert.',
       heroSubtitle:
         'KreativKraftwerk ist ein Kunstkollektiv, das Praxis als gemeinsamen Zustand versteht. Wir kommen zusammen über Felder, Hintergründe und Geographien hinweg, um Werke zu produzieren, die in Isolation nicht existieren könnten.',
       quote:
         '„Ein Raum ist nicht leer, wenn er die Möglichkeit der Begegnung birgt."',
       quoteSource: '— KreativKraftwerk Manifest, Berlin 2023',
+      principles: [
+        {
+          number: '01',
+          title: 'Interdisziplinär',
+          body: 'Wir lehnen die Grenzen zwischen Disziplinen ab. Kunst, Architektur, Technologie, Design, Schreiben und Performance sind keine getrennten Container, sondern überlappende Territorien. Unsere Arbeit gedeiht in den Räumen zwischen den Feldern, wo unerwartete Verbindungen zu einer generativen Kraft werden.',
+        },
+        {
+          number: '02',
+          title: 'Gemeinschaftsbasiert',
+          body: 'Das Kollektiv ist keine Institution — es ist eine Gemeinschaft. Wir werden geformt durch die Menschen in und um uns herum, durch die Nachbarschaften, die wir bewohnen, und die Öffentlichkeiten, die wir einbeziehen. Unsere Praxis ist gegenüber den Gemeinschaften, die sie berührt, rechenschaftspflichtig.',
+        },
+        {
+          number: '03',
+          title: 'Raum als Begriff',
+          body: '„Raum" ist für uns nicht nur physischer Raum. Es ist Erlaubnis — die Erlaubnis zu experimentieren, zu scheitern, zu widersprechen, zu wachsen. Wir schaffen Räume: für Künstler*innen, für Ideen, für Dialog, für die unvorhersehbare Begegnung. Der Raum ist das Werk.',
+        },
+        {
+          number: '04',
+          title: 'Prozess vor Produkt',
+          body: 'Wir schätzen das Machen ebenso wie das Gemachte. Unsere Ausstellungen, Publikationen und Veranstaltungen dokumentieren einen Prozess, anstatt ihn abzuschließen. Wir lassen Fragen offen, laden zur Überarbeitung ein und widerstehen dem Druck vorzeitiger Abschlüsse.',
+        },
+        {
+          number: '05',
+          title: 'Offene Struktur',
+          body: 'KreativKraftwerk operiert durch eine lockere, horizontale Struktur. Mitgliedschaft ist fließend, Zusammenarbeit ist freiwillig und Entscheidungsfindung ist geteilt. Wir werden nicht durch Hierarchie zusammengehalten, sondern durch gemeinsame Neugier und gegenseitiges Engagement.',
+        },
+      ],
     },
     contact: {
       breadcrumb: 'Kontakt',
@@ -256,7 +276,7 @@ const translations = {
       sendAnother: 'Weitere Nachricht senden',
       subjectOptions: [
         'Allgemeine Anfrage',
-        'Ausstellungsvorschlag',
+        'Projektvorschlag',
         'Mitgliedschaft / Dem Kollektiv beitreten',
         'Presse & Medien',
         'Kooperationsvorschlag',

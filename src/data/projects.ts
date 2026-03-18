@@ -2,7 +2,7 @@ import { Project } from './types';
 
 export const projects: Project[] = [
   {
-    id: 1,
+    id: '1',
     title: "Spit on H*tler's Grave",
     subtitle: 'inside threating history — outside totalarity — besides democracy',
     dates: '19. – 24. September 2024',
@@ -93,7 +93,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 2,
+    id: '2',
     title: 'Material Dialogues',
     subtitle: 'Group Show',
     dates: 'Feb 10 – Apr 12, 2026',
@@ -103,7 +103,7 @@ export const projects: Project[] = [
     gradient: 'from-stone-800 via-amber-900 to-stone-700',
   },
   {
-    id: 4,
+    id: '4',
     title: 'Bodies in Space',
     subtitle: 'Performance & Video',
     dates: 'Dec 1, 2025 – Feb 14, 2026',
@@ -113,7 +113,7 @@ export const projects: Project[] = [
     gradient: 'from-neutral-800 via-neutral-600 to-zinc-500',
   },
   {
-    id: 6,
+    id: '6',
     title: 'Peripheral Voices',
     subtitle: 'Mixed Media',
     dates: 'Oct 3 – Dec 7, 2025',
