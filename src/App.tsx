@@ -8,7 +8,7 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import { LanguageProvider } from './context/LanguageContext';
 
-const App = () => {
+function App() {
   const [activeTab, setActiveTab] = useState('projects');
 
   const renderPage = () => {

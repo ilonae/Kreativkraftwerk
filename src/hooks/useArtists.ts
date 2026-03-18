@@ -2,6 +2,21 @@ import { useState, useEffect } from 'react';
 import { contentfulClient, CONTENT_TYPES } from '../lib/contentful';
 import type { Artist } from '../data/types';
 
+function richTextToPlain(value: unknown): string {
+  if (typeof value === 'string') return value;
+  if (!value || typeof value !== 'object') return '';
+  const node = value as Record<string, unknown>;
+  if (node.nodeType === 'text' && typeof node.value === 'string') return node.value;
+  if (Array.isArray(node.content)) {
+    return (node.content as unknown[])
+      .map(richTextToPlain)
+      .join('')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+  return '';
+}
+
 /**
  * Fetches all artists from Contentful and maps them to the Artist type.
  *
@@ -30,7 +45,7 @@ export function useArtists() {
             name:     f.name ?? '',
             field:    f.field ?? '',
             contact:  f.contact ?? '',
-            bio:      f.bio,
+            bio:      f.bio ? richTextToPlain(f.bio) : undefined,
             imageUrl: f.photo?.fields?.file?.url
                         ? `https:${f.photo.fields.file.url}`
                         : undefined,
