@@ -4,7 +4,7 @@ export interface FrameworkItem {
   en: string;
 }
 
-export interface ExhibitionSection {
+export interface ProjectSection {
   name: string;
   nameEN: string;
   description: string;
@@ -12,19 +12,29 @@ export interface ExhibitionSection {
   artists: string[];
 }
 
+/**
+ * Unified project type. Every entry in Contentful's `project` content type
+ * maps to this shape. Simple card projects only populate the top fields;
+ * the featured project additionally populates the rich detail fields below.
+ */
 export interface Project {
-  id: number;
+  id: string;
   title: string;
-  subtitle: string;
-  dates: string;
-  venue: string;
-  city: string;
+  subtitle?: string;
+  categoryEN: string;
+  categoryDE: string;
+  descriptionEN: string;
+  descriptionDE: string;
+  year: string;
+  status: 'ongoing' | 'upcoming' | 'completed';
   gradient: string;
   imageUrl?: string;
-  current: boolean;
-  featured?: boolean;
 
-  // ── Rich detail fields (optional — populated per exhibition) ──────────
+  // Featured / exhibition-level fields — only set on the main project
+  featured?: boolean;
+  dates?: string;
+  venue?: string;
+  city?: string;
   partner?: string;
   visitors?: string;
   duration?: string;
@@ -34,13 +44,24 @@ export interface Project {
   triggerEN?: string;
   framework?: FrameworkItem[];
   insideOutsideBody?: { de: string[]; en: string[] };
-  sections?: ExhibitionSection[];
+  sections?: ProjectSection[];
+}
+
+export interface Artist {
+  id: string;
+  name: string;
+  field: string;
+  contact: string;
+  bio?: string;
+  imageUrl?: string;
+  gradient?: string;
 }
 
 export interface Milestone {
   id: number;
   year: string;
-  event: string;
+  eventDe: string;
+  eventEn: string;
 }
 
 export interface Artist {
