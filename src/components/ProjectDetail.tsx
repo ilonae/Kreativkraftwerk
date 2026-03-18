@@ -2,7 +2,6 @@ import React from 'react';
 import { Project } from '../data/types';
 import { useLang } from '../context/LanguageContext';
 import translations from '../i18n/translations';
-import type { Project } from '../data/types';
 
 interface ExhibitionDetailProps {
   project: Project;
