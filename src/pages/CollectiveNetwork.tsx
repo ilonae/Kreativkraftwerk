@@ -13,14 +13,15 @@ export default function CollectiveNetwork() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Page header */}
+
+      {/* ── Page header ── */}
       <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-200">
         <span className="text-xs tracking-label uppercase font-semibold text-black">Berlin</span>
         <span className="text-kkw-pink">→</span>
         <span className="text-xs tracking-label uppercase text-gray-500">Collective Network</span>
       </div>
 
-      {/* Intro section */}
+      {/* ── Intro ── */}
       <div className="px-6 py-10 border-b border-black">
         <div className="max-w-2xl">
           <div className="flex flex-wrap gap-6 mb-6">
@@ -42,6 +43,7 @@ export default function CollectiveNetwork() {
         </div>
       </div>
 
+<<<<<<< HEAD
       {loading && (
         <div className="px-6 py-24 text-center">
           <p className="text-xs tracking-label uppercase text-gray-400">Loading…</p>

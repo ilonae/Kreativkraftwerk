@@ -15,22 +15,22 @@ const tabIds = [
   'about',
 ] as const;
 
+const tabLabel = (id: string, t: typeof translations['en']['nav']): string => {
+  const map: Record<string, string> = {
+    projects: t.tabs.projects,
+    'collective-network': t.tabs.collectiveNetwork,
+    approach: t.tabs.approach,
+    contact: t.tabs.contact,
+    about: t.tabs.about,
+  };
+  return map[id] ?? id;
+};
+
 export default function NavBar({ activeTab, setActiveTab }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { lang, setLang } = useLang();
   const t = translations[lang].nav;
 
-  // Build tab label from translations by tab id
-  const tabLabel = (id: string): string => {
-    const map: Record<string, string> = {
-      projects: t.tabs.projects,
-      'collective-network': t.tabs.collectiveNetwork,
-      approach: t.tabs.approach,
-      contact: t.tabs.contact,
-      about: t.tabs.about,
-    };
-    return map[id] ?? id;
-  };
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-black">
@@ -86,7 +86,7 @@ export default function NavBar({ activeTab, setActiveTab }: NavBarProps) {
                 : 'bg-white text-black hover:bg-kkw-gray'
               }`}
           >
-            {tabLabel(id)}
+            {tabLabel(id, t)}
           </button>
         ))}
       </nav>
@@ -94,7 +94,7 @@ export default function NavBar({ activeTab, setActiveTab }: NavBarProps) {
       {/* Mobile hamburger */}
       <div className="md:hidden flex items-center justify-between px-6 py-3 border-t border-black">
         <span className="text-xs tracking-label uppercase font-semibold">
-          {tabLabel(activeTab)}
+          {tabLabel(activeTab, t)}
         </span>
         <button
           onClick={() => setMenuOpen(!menuOpen)}
@@ -119,7 +119,7 @@ export default function NavBar({ activeTab, setActiveTab }: NavBarProps) {
                   : 'bg-white text-black hover:bg-kkw-gray'
                 }`}
             >
-              {tabLabel(id)}
+              {tabLabel(id, t)}
             </button>
           ))}
         </nav>

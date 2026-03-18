@@ -12,6 +12,9 @@ const statusColors: Record<string, string> = {
 };
 
 export default function Projects() {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const { lang } = useLang();
   const t = translations[lang].projects;
   const { projects, loading, error } = useProjects();
