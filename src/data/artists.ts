@@ -8,6 +8,11 @@ export const artists: Artist[] = [
     contact: 'andrea@kreativkraftwerk.de',
     bio: 'Works at the intersection of architecture, installation and community space-making. Based in Berlin.',
     gradient: 'from-gray-400 to-gray-300',
+    hashtags: ['spatial-practice', 'installation', 'community'],
+    socials: [
+      'https://instagram.com/andrea.berke',
+      'https://andreaberke.de',
+    ],
   },
   {
     id: '2',
@@ -15,6 +20,8 @@ export const artists: Artist[] = [
     field: 'Visual Arts',
     contact: 'leni@kreativkraftwerk.de',
     gradient: 'from-zinc-400 to-zinc-300',
+    hashtags: ['painting', 'abstraction'],
+    socials: ['https://instagram.com/leni.schleyer'],
   },
   {
     id: '3',
@@ -22,6 +29,11 @@ export const artists: Artist[] = [
     field: 'Curating & Cultural Studies',
     contact: 'ilona@kreativkraftwerk.de',
     gradient: 'from-gray-500 to-gray-400',
+    hashtags: ['curating', 'writing', 'research'],
+    socials: [
+      'https://linkedin.com/in/ilona-eisenbraun',
+      'https://ilonaeisenbraun.com',
+    ],
   },
   {
     id: '4',

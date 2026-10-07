@@ -1,0 +1,14 @@
+name = "kkw-artist-submit"
+main = "artist-submit-worker.js"
+compatibility_date = "2025-01-01"
+
+# Public configuration — safe to commit.
+# Fill these in before deploying.
+[vars]
+CONTENTFUL_SPACE_ID    = "cw431yrphuse"
+CONTENTFUL_ENVIRONMENT = "master"
+CONTENTFUL_LOCALE      = "en-US"
+ALLOWED_ORIGIN         = "https://ilonae.github.io"
+
+# Secrets — DO NOT commit. Set them separately:
+#   npx wrangler secret put CONTENTFUL_CMA_TOKEN

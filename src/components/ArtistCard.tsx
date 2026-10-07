@@ -1,5 +1,6 @@
 import React from 'react';
 import { Artist } from '../data/types';
+import { parseSocial } from '../lib/socials';
 
 interface ArtistCardProps {
   artist: Artist;
@@ -41,15 +42,32 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
       </div>
 
       {/* Info */}
-      <div className="px-3 py-4 border-t border-gray-100">
-        <p className="text-xs font-bold text-kkw-pink tracking-label uppercase mb-0.5">
-          {artist.name}
-        </p>
-        {artist.field && (
-          <p className="text-kkw-pink tracking-label uppercase mb-2" style={{ fontSize: '0.6rem' }}>
-            {artist.field}
+      <div className="px-3 py-4 border-t border-gray-100 flex flex-col gap-2">
+        <div>
+          <p className="text-xs font-bold text-kkw-pink tracking-label uppercase mb-0.5">
+            {artist.name}
           </p>
+          {artist.field && (
+            <p className="text-kkw-pink tracking-label uppercase" style={{ fontSize: '0.6rem' }}>
+              {artist.field}
+            </p>
+          )}
+        </div>
+
+        {artist.hashtags && artist.hashtags.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {artist.hashtags.map(tag => (
+              <span
+                key={tag}
+                className="border border-gray-200 text-gray-500 tracking-label px-1.5 py-0.5"
+                style={{ fontSize: '0.55rem' }}
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
         )}
+
         {artist.contact && (
           <p className="text-gray-400" style={{ fontSize: '0.6rem' }}>
             <span className="font-semibold uppercase tracking-label">Contact: </span>
@@ -61,6 +79,28 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
               {artist.contact}
             </a>
           </p>
+        )}
+
+        {artist.socials && artist.socials.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {artist.socials
+              .map(parseSocial)
+              .filter((s): s is NonNullable<ReturnType<typeof parseSocial>> => s !== null)
+              .map(s => (
+                <a
+                  key={s.raw}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={e => e.stopPropagation()}
+                  className="border border-gray-200 hover:border-kkw-pink hover:text-kkw-pink text-gray-500 font-semibold tracking-label uppercase px-1.5 py-0.5 transition-colors duration-200"
+                  style={{ fontSize: '0.55rem' }}
+                  title={s.raw}
+                >
+                  {s.label}
+                </a>
+              ))}
+          </div>
         )}
       </div>
     </div>

@@ -28,6 +28,8 @@ function richTextToPlain(value: unknown): string {
  *   bio       Long Text (optional)
  *   photo     Media (optional)
  *   gradient  Short Text (optional)  Tailwind classes for placeholder
+ *   socials   Short Text, List (optional)  full URLs
+ *   hashtags  Short Text, List (optional)  free-form tags, with or without leading #
  */
 export function useArtists() {
   const [artists, setArtists] = useState<Artist[]>([]);
@@ -40,6 +42,16 @@ export function useArtists() {
       .then(res => {
         const mapped: Artist[] = res.items.map((item: any) => {
           const f = item.fields;
+          const socials = Array.isArray(f.socials)
+            ? f.socials
+                .map((s: unknown) => (typeof s === 'string' ? s.trim() : ''))
+                .filter(Boolean)
+            : undefined;
+          const hashtags = Array.isArray(f.hashtags)
+            ? f.hashtags
+                .map((h: unknown) => (typeof h === 'string' ? h.trim().replace(/^#/, '') : ''))
+                .filter(Boolean)
+            : undefined;
           return {
             id:       item.sys.id,
             name:     f.name ?? '',
@@ -50,6 +62,8 @@ export function useArtists() {
                         ? `https:${f.photo.fields.file.url}`
                         : undefined,
             gradient: f.gradient,
+            socials,
+            hashtags,
           };
         });
         setArtists(mapped);

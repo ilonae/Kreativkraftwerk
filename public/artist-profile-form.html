@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KreativKraftwerk — Artist Profile Submission</title>
+  <meta name="description" content="Submit your details for the KreativKraftwerk collective network." />
+
+  <style>
+    /* ─── Reset & tokens ─── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    :root {
+      --pink: #E8006F;
+      --black: #0a0a0a;
+      --gray-100: #f4f4f4;
+      --gray-200: #e5e5e5;
+      --gray-300: #d4d4d4;
+      --gray-400: #a3a3a3;
+      --gray-500: #737373;
+      --white: #ffffff;
+      --track-label: 0.1em;
+    }
+
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--black);
+      background: var(--white);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Layout ─── */
+    .wordmark {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--gray-200);
+      flex-wrap: wrap;
+    }
+    .wordmark h1 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+    }
+    .wordmark .breadcrumb {
+      font-size: 11px;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+    .wordmark .breadcrumb span:first-child {
+      color: var(--black);
+      font-weight: 600;
+    }
+    .wordmark .breadcrumb .arrow { color: var(--pink); padding: 0 6px; }
+
+    .intro {
+      padding: 40px 24px;
+      border-bottom: 1px solid var(--black);
+    }
+    .intro-inner { max-width: 720px; }
+    .intro h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 16px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    .intro p {
+      color: var(--gray-500);
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .intro p + p { margin-top: 8px; }
+    .intro strong { color: var(--black); font-weight: 600; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    @media (min-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+      }
+    }
+
+    .form-col {
+      padding: 32px 24px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    @media (min-width: 900px) {
+      .form-col { border-right: 1px solid var(--gray-200); border-bottom: none; }
+    }
+
+    .preview-col {
+      padding: 32px 24px;
+      background: var(--gray-100);
+      position: relative;
+    }
+    @media (min-width: 900px) {
+      .preview-col { position: sticky; top: 0; align-self: start; min-height: 100vh; }
+    }
+
+    /* ─── Form sections ─── */
+    .section { margin-bottom: 40px; }
+    .section:last-child { margin-bottom: 0; }
+    .section-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 16px;
+    }
+    .section-help {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin: -8px 0 16px;
+    }
+
+    .field { margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 6px;
+    }
+    .field label .req { color: var(--pink); }
+
+    .input, .textarea {
+      width: 100%;
+      border: 1px solid var(--black);
+      background: var(--white);
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .input:focus, .textarea:focus { border-color: var(--pink); }
+    .textarea { resize: vertical; min-height: 100px; line-height: 1.55; }
+    .input::placeholder, .textarea::placeholder { color: var(--gray-300); }
+
+    /* Prefix wrapper for socials (e.g. instagram.com/) */
+    .prefix-input {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--black);
+      background: var(--white);
+      transition: border-color 0.15s ease;
+    }
+    .prefix-input:focus-within { border-color: var(--pink); }
+    .prefix-input .prefix {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 12px;
+      color: var(--gray-500);
+      background: var(--gray-100);
+      border-right: 1px solid var(--gray-200);
+      white-space: nowrap;
+    }
+    .prefix-input input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--black);
+      outline: none;
+      min-width: 0;
+    }
+    .prefix-input input::placeholder { color: var(--gray-300); }
+
+    /* ─── Hashtag chips ─── */
+    .chip-input-wrap {
+      border: 1px solid var(--black);
+      background: var(--white);
+      padding: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      min-height: 44px;
+      transition: border-color 0.15s ease;
+    }
+    .chip-input-wrap:focus-within { border-color: var(--pink); }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      border: 1px solid var(--gray-300);
+      font-size: 11px;
+      letter-spacing: var(--track-label);
+      color: var(--gray-500);
+      background: var(--gray-100);
+    }
+    .chip .chip-remove {
+      cursor: pointer;
+      color: var(--gray-400);
+      font-size: 14px;
+      line-height: 1;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+    }
+    .chip .chip-remove:hover { color: var(--pink); }
+    #hashtag-input {
+      flex: 1;
+      min-width: 120px;
+      border: none;
+      outline: none;
+      padding: 6px 4px;
+      font-family: inherit;
+      font-size: 13px;
+      background: transparent;
+    }
+    #hashtag-input::placeholder { color: var(--gray-300); }
+
+    /* ─── Advanced socials ─── */
+    .toggle-more {
+      background: none;
+      border: none;
+      color: var(--gray-500);
+      font-family: inherit;
+      font-size: 11px;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 12px 0 0;
+      transition: color 0.15s ease;
+    }
+    .toggle-more:hover { color: var(--pink); }
+    .toggle-more .plus { color: var(--pink); margin-right: 6px; font-weight: 700; }
+    .advanced-socials { display: none; margin-top: 14px; }
+    .advanced-socials.open { display: block; }
+
+    /* ─── Submit actions ─── */
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 32px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      border: 1px solid var(--black);
+      background: var(--black);
+      color: var(--white);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .btn:hover { background: var(--pink); border-color: var(--pink); }
+    .btn.secondary { background: var(--white); color: var(--black); }
+    .btn.secondary:hover { background: var(--black); color: var(--white); }
+
+    .status {
+      font-size: 11px;
+      color: var(--gray-500);
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      text-align: center;
+      min-height: 16px;
+    }
+    .status.success { color: var(--pink); }
+
+    /* ─── Preview card (mirrors the site's ArtistCard) ─── */
+    .preview-heading {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin: 0 0 16px;
+    }
+    .card {
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      max-width: 320px;
+    }
+    .card-photo {
+      aspect-ratio: 3 / 4;
+      background: linear-gradient(to bottom, #9ca3af, #d4d4d8);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1);
+      display: block;
+    }
+    .card-photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 16px;
+    }
+    .card-photo-placeholder .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+    .card-body {
+      padding: 14px 12px 16px;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-name {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--pink);
+      margin: 0;
+    }
+    .card-field {
+      font-size: 9.5px;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--pink);
+      margin: 0;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .card-tag {
+      border: 1px solid var(--gray-200);
+      color: var(--gray-500);
+      font-size: 9px;
+      letter-spacing: var(--track-label);
+      padding: 2px 6px;
+    }
+    .card-contact {
+      font-size: 9.5px;
+      color: var(--gray-400);
+    }
+    .card-contact strong {
+      font-weight: 600;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+    .card-socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .card-social {
+      border: 1px solid var(--gray-200);
+      color: var(--gray-500);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      padding: 2px 6px;
+    }
+
+    .footer {
+      padding: 24px;
+      border-top: 1px solid var(--gray-200);
+      text-align: center;
+      font-size: 11px;
+      color: var(--gray-400);
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+    }
+
+    /* Small screens: tidy up spacing */
+    @media (max-width: 640px) {
+      .intro { padding: 32px 24px; }
+      .intro h2 { font-size: 20px; }
+      .form-col, .preview-col { padding: 24px; }
+      .card { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Header ─── -->
+  <header class="wordmark">
+    <h1>KREATIVKRAFTWERK</h1>
+    <div class="breadcrumb">
+      <span>Berlin</span><span class="arrow">→</span><span>Artist Profile Submission</span>
+    </div>
+  </header>
+
+  <!-- ─── Intro ─── -->
+  <section class="intro">
+    <div class="intro-inner">
+      <h2>Join the collective network.</h2>
+      <p>
+        Fill out your profile below. Only your <strong>name</strong> is required — everything else is up to you.
+        Skip any fields you don't want to publish; empty fields simply won't appear on your card.
+      </p>
+      <p>
+        When you're done, use one of the send buttons at the bottom. To include a portrait photo,
+        <strong>attach it directly to the email</strong> — we'll pair it with your submission.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── Form + Preview ─── -->
+  <div class="layout">
+
+    <!-- ─── Form ─── -->
+    <form class="form-col" id="artist-form" autocomplete="off">
+
+      <!-- BASIC -->
+      <div class="section">
+        <span class="section-label">Basic</span>
+
+        <div class="field">
+          <label for="name">Name <span class="req">*</span></label>
+          <input class="input" id="name" name="name" type="text" placeholder="e.g. Andrea Berke" required />
+        </div>
+
+        <div class="field">
+          <label for="field">Discipline / Field</label>
+          <input class="input" id="field" name="field" type="text" placeholder="e.g. Architecture & Spatial Design" />
+        </div>
+
+        <div class="field">
+          <label for="contact">Contact email</label>
+          <input class="input" id="contact" name="contact" type="email" placeholder="e.g. andrea@kreativkraftwerk.de" />
+        </div>
+      </div>
+
+      <!-- BIO -->
+      <div class="section">
+        <span class="section-label">Bio</span>
+        <p class="section-help">One or two sentences on what you do and where you work from.</p>
+        <div class="field">
+          <textarea class="textarea" id="bio" name="bio" placeholder="Works at the intersection of…"></textarea>
+        </div>
+      </div>
+
+      <!-- HASHTAGS -->
+      <div class="section">
+        <span class="section-label">Hashtags</span>
+        <p class="section-help">Free-form tags describing your practice. Type a word and press Enter to add. Click a chip to remove it.</p>
+        <div class="chip-input-wrap" id="chip-wrap">
+          <input id="hashtag-input" type="text" placeholder="#painting, #installation, #research…" />
+        </div>
+      </div>
+
+      <!-- SOCIALS -->
+      <div class="section">
+        <span class="section-label">Socials</span>
+        <p class="section-help">Anything you'd like to share. All optional.</p>
+
+        <div class="field">
+          <label for="instagram">Instagram</label>
+          <div class="prefix-input">
+            <span class="prefix">instagram.com/</span>
+            <input id="instagram" name="instagram" type="text" placeholder="your.handle" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tiktok">TikTok</label>
+          <div class="prefix-input">
+            <span class="prefix">tiktok.com/@</span>
+            <input id="tiktok" name="tiktok" type="text" placeholder="your.handle" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="website">Own website</label>
+          <div class="prefix-input">
+            <span class="prefix">https://</span>
+            <input id="website" name="website" type="text" placeholder="yourname.com" />
+          </div>
+        </div>
+
+        <button type="button" class="toggle-more" id="toggle-more"><span class="plus">+</span>Add more socials</button>
+
+        <div class="advanced-socials" id="advanced-socials">
+          <div class="field">
+            <label for="linkedin">LinkedIn</label>
+            <div class="prefix-input">
+              <span class="prefix">linkedin.com/in/</span>
+              <input id="linkedin" name="linkedin" type="text" placeholder="your-name" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="x">X / Twitter</label>
+            <div class="prefix-input">
+              <span class="prefix">x.com/</span>
+              <input id="x" name="x" type="text" placeholder="your.handle" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="youtube">YouTube</label>
+            <div class="prefix-input">
+              <span class="prefix">youtube.com/@</span>
+              <input id="youtube" name="youtube" type="text" placeholder="channel-name" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="vimeo">Vimeo</label>
+            <div class="prefix-input">
+              <span class="prefix">vimeo.com/</span>
+              <input id="vimeo" name="vimeo" type="text" placeholder="your.handle" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="behance">Behance</label>
+            <div class="prefix-input">
+              <span class="prefix">behance.net/</span>
+              <input id="behance" name="behance" type="text" placeholder="your.handle" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="soundcloud">SoundCloud</label>
+            <div class="prefix-input">
+              <span class="prefix">soundcloud.com/</span>
+              <input id="soundcloud" name="soundcloud" type="text" placeholder="your.handle" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="actions">
+        <button type="button" class="btn" id="btn-submit" hidden>Submit profile</button>
+        <button type="button" class="btn" id="btn-mailto">Open in email</button>
+        <button type="button" class="btn secondary" id="btn-copy">Copy formatted text</button>
+        <button type="button" class="btn secondary" id="btn-download">Download JSON</button>
+        <div class="status" id="status"></div>
+      </div>
+    </form>
+
+    <!-- ─── Preview ─── -->
+    <aside class="preview-col">
+      <p class="preview-heading">Live preview</p>
+      <div class="card">
+        <div class="card-photo" id="pv-photo">
+          <div class="card-photo-placeholder"><div class="avatar"></div></div>
+        </div>
+        <div class="card-body">
+          <div>
+            <p class="card-name" id="pv-name">Your Name</p>
+            <p class="card-field" id="pv-field">Your discipline</p>
+          </div>
+          <div class="card-tags" id="pv-tags"></div>
+          <p class="card-contact" id="pv-contact" style="display:none">
+            <strong>Contact: </strong><span id="pv-contact-value"></span>
+          </p>
+          <div class="card-socials" id="pv-socials"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">Submissions go to hello@kreativkraftwerk.de</footer>
+
+  <script>
+    // ─── Config ───
+    // Direct submission to Contentful via the Cloudflare Worker proxy.
+    // Leave empty to disable direct submission (form falls back to mailto / copy / download).
+    // See functions/README.md for how to deploy the Worker and get this URL.
+    const SUBMIT_ENDPOINT = "https://kkw-artist-submit.ilonaeisenbraun.workers.dev";
+    const RECIPIENT_EMAIL = "hello@kreativkraftwerk.de";  // used by the mailto fallback
+
+    // ─── State ───
+    const hashtags = [];
+
+    // ─── Utility: build socials URL from prefixed input ───
+    // Returns { url, label } if a value is present, else null
+    const socialConfig = {
+      instagram: { prefix: "https://instagram.com/",       label: "IG"  },
+      tiktok:    { prefix: "https://tiktok.com/@",         label: "TT"  },
+      website:   { prefix: "https://",                     label: "WEB" },
+      linkedin:  { prefix: "https://linkedin.com/in/",     label: "LI"  },
+      x:         { prefix: "https://x.com/",               label: "X"   },
+      youtube:   { prefix: "https://youtube.com/@",        label: "YT"  },
+      vimeo:     { prefix: "https://vimeo.com/",           label: "VM"  },
+      behance:   { prefix: "https://behance.net/",         label: "BE"  },
+      soundcloud:{ prefix: "https://soundcloud.com/",      label: "SC"  },
+    };
+
+    function collectSocials() {
+      const out = [];
+      for (const key of Object.keys(socialConfig)) {
+        const raw = document.getElementById(key)?.value.trim();
+        if (!raw) continue;
+        const cleaned = raw.replace(/^@/, "").replace(/^https?:\/\//i, "");
+        out.push({
+          key,
+          label: socialConfig[key].label,
+          url: socialConfig[key].prefix + cleaned,
+        });
+      }
+      return out;
+    }
+
+    function collectFormData() {
+      const socials = collectSocials();
+      return {
+        name:     document.getElementById("name").value.trim(),
+        field:    document.getElementById("field").value.trim(),
+        contact:  document.getElementById("contact").value.trim(),
+        bio:      document.getElementById("bio").value.trim(),
+        hashtags: [...hashtags],
+        socials:  socials.map(s => s.url),
+        _socialDetails: socials, // for preview + formatted output
+      };
+    }
+
+    // ─── Live preview ───
+    function updatePreview() {
+      const d = collectFormData();
+
+      document.getElementById("pv-name").textContent  = d.name  || "Your Name";
+      document.getElementById("pv-field").textContent = d.field || "Your discipline";
+
+      // Hashtags
+      const tagsEl = document.getElementById("pv-tags");
+      tagsEl.innerHTML = "";
+      d.hashtags.forEach(t => {
+        const span = document.createElement("span");
+        span.className = "card-tag";
+        span.textContent = "#" + t;
+        tagsEl.appendChild(span);
+      });
+
+      // Contact
+      const contactRow = document.getElementById("pv-contact");
+      if (d.contact) {
+        contactRow.style.display = "";
+        document.getElementById("pv-contact-value").textContent = d.contact;
+      } else {
+        contactRow.style.display = "none";
+      }
+
+      // Socials
+      const socialsEl = document.getElementById("pv-socials");
+      socialsEl.innerHTML = "";
+      d._socialDetails.forEach(s => {
+        const span = document.createElement("span");
+        span.className = "card-social";
+        span.textContent = s.label;
+        span.title = s.url;
+        socialsEl.appendChild(span);
+      });
+    }
+
+    // ─── Hashtag chip logic ───
+    const chipWrap = document.getElementById("chip-wrap");
+    const hashtagInput = document.getElementById("hashtag-input");
+
+    function renderChips() {
+      // Remove existing chips (keep the input)
+      chipWrap.querySelectorAll(".chip").forEach(c => c.remove());
+      hashtags.forEach((tag, i) => {
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.innerHTML = `#${escapeHtml(tag)} <button type="button" class="chip-remove" aria-label="Remove">×</button>`;
+        chip.querySelector(".chip-remove").addEventListener("click", () => {
+          hashtags.splice(i, 1);
+          renderChips();
+          updatePreview();
+        });
+        chipWrap.insertBefore(chip, hashtagInput);
+      });
+    }
+
+    function addHashtag(raw) {
+      const cleaned = raw.trim().replace(/^#/, "").replace(/\s+/g, "-").toLowerCase();
+      if (!cleaned) return;
+      if (hashtags.includes(cleaned)) return;
+      hashtags.push(cleaned);
+      renderChips();
+      updatePreview();
+    }
+
+    hashtagInput.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === "," || e.key === "Tab") {
+        if (hashtagInput.value.trim()) {
+          e.preventDefault();
+          addHashtag(hashtagInput.value);
+          hashtagInput.value = "";
+        }
+      } else if (e.key === "Backspace" && !hashtagInput.value && hashtags.length) {
+        hashtags.pop();
+        renderChips();
+        updatePreview();
+      }
+    });
+    hashtagInput.addEventListener("blur", () => {
+      if (hashtagInput.value.trim()) {
+        addHashtag(hashtagInput.value);
+        hashtagInput.value = "";
+      }
+    });
+
+    // ─── "Add more socials" toggle ───
+    const advanced = document.getElementById("advanced-socials");
+    const toggle = document.getElementById("toggle-more");
+    toggle.addEventListener("click", () => {
+      const open = advanced.classList.toggle("open");
+      toggle.innerHTML = open
+        ? '<span class="plus">−</span>Hide extra socials'
+        : '<span class="plus">+</span>Add more socials';
+    });
+
+    // ─── Live preview wiring ───
+    document.querySelectorAll("input, textarea").forEach(el => {
+      el.addEventListener("input", updatePreview);
+    });
+
+    // ─── Escape HTML helper ───
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+
+    // ─── Formatted output ───
+    function buildFormattedText(d) {
+      const lines = [];
+      lines.push("KREATIVKRAFTWERK — ARTIST PROFILE SUBMISSION");
+      lines.push("=============================================");
+      lines.push("");
+      lines.push(`Name:       ${d.name || "(missing)"}`);
+      if (d.field)    lines.push(`Field:      ${d.field}`);
+      if (d.contact)  lines.push(`Contact:    ${d.contact}`);
+      if (d.bio)      lines.push(`\nBio:\n${d.bio}`);
+      if (d.hashtags.length) {
+        lines.push("");
+        lines.push("Hashtags:");
+        d.hashtags.forEach(t => lines.push(`  #${t}`));
+      }
+      if (d._socialDetails.length) {
+        lines.push("");
+        lines.push("Socials:");
+        d._socialDetails.forEach(s => lines.push(`  ${s.label.padEnd(4)} ${s.url}`));
+      }
+      lines.push("");
+      lines.push("(Photo, if any, is attached to this email.)");
+      return lines.join("\n");
+    }
+
+    // ─── Status helper ───
+    const statusEl = document.getElementById("status");
+    let statusTimer;
+    function flashStatus(msg, isSuccess = true) {
+      clearTimeout(statusTimer);
+      statusEl.textContent = msg;
+      statusEl.classList.toggle("success", isSuccess);
+      statusTimer = setTimeout(() => {
+        statusEl.textContent = "";
+        statusEl.classList.remove("success");
+      }, 3500);
+    }
+
+    // ─── Validation ───
+    function requireName(d) {
+      if (!d.name) {
+        document.getElementById("name").focus();
+        flashStatus("Please enter your name first.", false);
+        return false;
+      }
+      return true;
+    }
+
+    // ─── Submit: mailto ───
+    document.getElementById("btn-mailto").addEventListener("click", () => {
+      const d = collectFormData();
+      if (!requireName(d)) return;
+      const subject = `Artist profile: ${d.name}`;
+      const body = buildFormattedText(d);
+      window.location.href = `mailto:${RECIPIENT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      flashStatus("Opening your mail client…");
+    });
+
+    // ─── Submit: copy ───
+    document.getElementById("btn-copy").addEventListener("click", async () => {
+      const d = collectFormData();
+      if (!requireName(d)) return;
+      const text = buildFormattedText(d);
+      try {
+        await navigator.clipboard.writeText(text);
+        flashStatus("Copied to clipboard — paste it into an email.");
+      } catch {
+        flashStatus("Couldn't copy automatically. Please select and copy manually.", false);
+      }
+    });
+
+    // ─── Submit: download JSON ───
+    document.getElementById("btn-download").addEventListener("click", () => {
+      const d = collectFormData();
+      if (!requireName(d)) return;
+      const payload = {
+        name:     d.name,
+        field:    d.field    || undefined,
+        contact:  d.contact  || undefined,
+        bio:      d.bio      || undefined,
+        hashtags: d.hashtags.length ? d.hashtags : undefined,
+        socials:  d.socials.length  ? d.socials  : undefined,
+      };
+      const cleaned = Object.fromEntries(Object.entries(payload).filter(([, v]) => v !== undefined));
+      const blob = new Blob([JSON.stringify(cleaned, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const slug = d.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "artist";
+      a.download = `kkw-artist-${slug}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      flashStatus(`Downloaded kkw-artist-${slug}.json`);
+    });
+
+    // ─── Submit: direct to Contentful (via Worker) ───
+    function buildPayload(d) {
+      const payload = {
+        name:     d.name,
+        field:    d.field    || undefined,
+        contact:  d.contact  || undefined,
+        bio:      d.bio      || undefined,
+        hashtags: d.hashtags.length ? d.hashtags : undefined,
+        socials:  d.socials.length  ? d.socials  : undefined,
+      };
+      return Object.fromEntries(Object.entries(payload).filter(([, v]) => v !== undefined));
+    }
+
+    const submitBtn = document.getElementById("btn-submit");
+    const mailtoBtn = document.getElementById("btn-mailto");
+
+    if (SUBMIT_ENDPOINT) {
+      // Direct-submit path is configured: show the primary Submit button and
+      // demote mailto to a secondary fallback.
+      submitBtn.hidden = false;
+      mailtoBtn.classList.add("secondary");
+
+      submitBtn.addEventListener("click", async () => {
+        const d = collectFormData();
+        if (!requireName(d)) return;
+
+        submitBtn.disabled = true;
+        flashStatus("Submitting…");
+
+        try {
+          const res = await fetch(SUBMIT_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(buildPayload(d)),
+          });
+
+          if (res.ok) {
+            flashStatus("Thanks — your profile has been submitted for review.", true);
+            setTimeout(() => {
+              document.getElementById("artist-form").reset();
+              hashtags.length = 0;
+              renderChips();
+              updatePreview();
+              submitBtn.disabled = false;
+            }, 2500);
+          } else {
+            let detail = "";
+            try {
+              const err = await res.json();
+              detail = err.error ? ` (${err.error})` : "";
+            } catch { /* ignore */ }
+            flashStatus(`Submission failed${detail}. Try "Open in email" instead.`, false);
+            submitBtn.disabled = false;
+          }
+        } catch {
+          flashStatus('Network error. Try "Open in email" instead.', false);
+          submitBtn.disabled = false;
+        }
+      });
+    }
+
+    // ─── Initial render ───
+    updatePreview();
+  </script>
+</body>
+</html>

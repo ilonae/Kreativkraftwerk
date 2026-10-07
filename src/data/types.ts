@@ -56,6 +56,8 @@ export interface Artist {
   bio?: string;
   imageUrl?: string;
   gradient?: string;
+  socials?: string[];
+  hashtags?: string[];
 }
 
 export interface Milestone {

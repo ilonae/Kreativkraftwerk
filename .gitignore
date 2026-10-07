@@ -1,1 +1,21 @@
+# Deps
+node_modules
+
+# Build output
+dist
+
+# OS metadata
+.DS_Store
+
+# Env + secrets — never commit
+.env
+.env.local
+.env.*.local
+
+# Design tool scratch (superdesign VS Code extension)
+.superdesign
+
+# Private / local-only material
 CONTENTFUL_SETUP.md
+docs/
+*.pdf

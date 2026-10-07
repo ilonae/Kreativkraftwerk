@@ -1,0 +1,4 @@
+# Copy this to .dev.vars (gitignored) for local `wrangler dev` runs.
+# In production, set these as secrets instead (see README).
+
+CONTENTFUL_CMA_TOKEN="your-cma-personal-access-token-here"
