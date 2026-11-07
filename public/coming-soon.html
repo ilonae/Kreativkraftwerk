@@ -193,113 +193,11 @@
       font-weight: 600;
     }
 
-    /* Signup band at the bottom */
-    .signup {
-      border-top: 1px solid var(--ink-faint);
-      padding-top: 28px;
-      margin-top: 72px;
-    }
-    .signup .label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: var(--track-label);
-      text-transform: uppercase;
-      color: var(--ink);
-      margin: 0 0 20px;
-    }
-    .signup .fields {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      align-items: end;
-    }
-    @media (min-width: 900px) {
-      .signup .fields {
-        grid-template-columns: 1fr auto;
-        gap: 24px;
-      }
-    }
-
-    .field .field-label {
-      display: block;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: var(--track-label);
-      text-transform: uppercase;
-      color: var(--ink-muted);
-      margin-bottom: 6px;
-    }
-    .field .field-label .req { color: var(--pink); }
-    .field .email-wrap {
-      border-bottom: 1px solid var(--ink);
-    }
-    .field input[type="email"] {
-      width: 100%;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--ink);
-      font-family: inherit;
-      font-size: 16px;
-      padding: 10px 0;
-    }
-    .field input[type="email"]::placeholder { color: var(--ink-faint); }
-
-    .checkbox-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-top: 14px;
-      font-size: 11px;
-      letter-spacing: var(--track-label);
-      text-transform: uppercase;
-      color: var(--ink-muted);
-      line-height: 1.5;
-    }
-    .checkbox-row input[type="checkbox"] {
-      flex-shrink: 0;
-      width: 14px;
-      height: 14px;
-      margin-top: 2px;
-      accent-color: var(--pink);
-    }
-    .checkbox-row .req { color: var(--pink); }
-
-    .btn-submit {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 160px;
-      padding: 18px 32px;
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: var(--track-label);
-      text-transform: uppercase;
-      color: var(--ink);
-      background: var(--bg-0);
-      border: 1px solid var(--pink);
-      cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-    .btn-submit:hover { background: var(--pink); color: var(--ink); }
-    .btn-submit:disabled { opacity: 0.5; cursor: wait; }
-
-    .status {
-      min-height: 16px;
-      margin-top: 14px;
-      font-size: 11px;
-      letter-spacing: var(--track-label);
-      text-transform: uppercase;
-      color: var(--ink-muted);
-    }
-    .status.success { color: var(--pink); }
-    .status.error   { color: #ff7f7f; }
-
     /* Footer micro-credit */
     .footer {
-      margin-top: 40px;
+      margin-top: 72px;
+      padding-top: 28px;
+      border-top: 1px solid var(--ink-faint);
       font-size: 10px;
       letter-spacing: var(--track-label);
       text-transform: uppercase;
@@ -312,8 +210,7 @@
       .page { padding: 20px 20px 24px; }
       .hero { padding: 40px 0 20px; }
       .meta { margin-top: 32px; }
-      .signup { margin-top: 48px; }
-      .btn-submit { width: 100%; }
+      .footer { margin-top: 48px; }
     }
   </style>
 </head>
@@ -368,100 +265,7 @@
       </div>
     </section>
 
-    <!-- Signup -->
-    <section class="signup">
-      <span class="label">Be the first to hear</span>
-      <form id="signup-form" novalidate>
-        <div class="fields">
-          <div class="field">
-            <label for="email" class="field-label">Email <span class="req">*</span></label>
-            <div class="email-wrap">
-              <input id="email" name="email" type="email" placeholder="you@domain.com" required />
-            </div>
-            <div class="checkbox-row">
-              <input id="consent" name="consent" type="checkbox" required />
-              <label for="consent">Yes, subscribe me to the KreativKraftwerk newsletter. <span class="req">*</span></label>
-            </div>
-          </div>
-          <button type="submit" class="btn-submit" id="btn-submit">Submit</button>
-        </div>
-      </form>
-      <div class="status" id="status"></div>
-    </section>
-
     <footer class="footer">KreativKraftwerk · Berlin · 2026</footer>
   </div>
-
-  <script>
-    // ─── Config ───
-    // Hook up a newsletter backend here when ready (Buttondown, Mailchimp, a
-    // Cloudflare Worker, etc). Leave empty to fall back to mailto: delivery.
-    const NEWSLETTER_ENDPOINT = "";
-    const CONTACT_EMAIL = "hello@kreativkraftwerk.de";
-
-    // ─── Submit handler ───
-    const form = document.getElementById("signup-form");
-    const emailInput = document.getElementById("email");
-    const consentInput = document.getElementById("consent");
-    const submitBtn = document.getElementById("btn-submit");
-    const statusEl = document.getElementById("status");
-
-    function flash(msg, kind) {
-      statusEl.textContent = msg;
-      statusEl.className = "status" + (kind ? " " + kind : "");
-    }
-
-    function validEmail(v) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    }
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = emailInput.value.trim();
-      const consent = consentInput.checked;
-
-      if (!validEmail(email)) {
-        flash("Please enter a valid email address.", "error");
-        emailInput.focus();
-        return;
-      }
-      if (!consent) {
-        flash("Please check the newsletter consent box.", "error");
-        consentInput.focus();
-        return;
-      }
-
-      submitBtn.disabled = true;
-      flash("Submitting…");
-
-      try {
-        if (NEWSLETTER_ENDPOINT) {
-          const res = await fetch(NEWSLETTER_ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, consent, source: "coming-soon" }),
-          });
-          if (res.ok) {
-            flash("You're on the list — see you soon.", "success");
-            form.reset();
-          } else {
-            flash("Something went wrong. Please email us at " + CONTACT_EMAIL, "error");
-          }
-        } else {
-          // Fallback: open mailto with pre-filled body
-          const subject = "Newsletter signup";
-          const body = "Please add " + email + " to the KreativKraftwerk newsletter.";
-          window.location.href = "mailto:" + CONTACT_EMAIL +
-            "?subject=" + encodeURIComponent(subject) +
-            "&body=" + encodeURIComponent(body);
-          flash("Opening your mail client — tap send to confirm.", "success");
-        }
-      } catch {
-        flash("Network error. Please email us at " + CONTACT_EMAIL, "error");
-      } finally {
-        submitBtn.disabled = false;
-      }
-    });
-  </script>
 </body>
 </html>
