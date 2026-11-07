@@ -12,19 +12,20 @@
     html, body { margin: 0; padding: 0; }
 
     :root {
-      --bg-0:         #150722;        /* deepest plum */
-      --bg-1:         #2a0e3f;        /* plum */
-      --bg-2:         #4a1760;        /* violet */
-      --ink:          #f3e3ec;        /* cream pink */
-      --ink-muted:    rgba(243, 227, 236, 0.55);
-      --ink-faint:    rgba(243, 227, 236, 0.2);
-      --ink-dark:     #1a082b;        /* for text on light orb areas */
+      --bg-0:         #4a2e6c;        /* muted violet */
+      --bg-1:         #6e4a92;        /* lavender-violet */
+      --bg-2:         #9478b0;        /* pale lavender */
+      --ink:          #f6ecf2;        /* cream pink */
+      --ink-muted:    rgba(246, 236, 242, 0.65);
+      --ink-faint:    rgba(246, 236, 242, 0.25);
+      --ink-dark:     #2a0f3a;        /* for text on light orb areas */
+      --vine:         #3a1e5a;        /* darker vine strokes for paler bg */
       --pink:         #E8006F;        /* kkw brand */
       --peach:        #ffb088;
       --magenta:      #d8468f;
-      --orb-core:     #ffc19a;
-      --orb-mid:      #e8528f;
-      --orb-outer:    #6b1a5a;
+      --orb-core:     #ffd4b0;
+      --orb-mid:      #ec7fa6;
+      --orb-outer:    #8a5fa8;
       --track-label:  0.12em;
     }
 
@@ -52,9 +53,9 @@
     /* 2. Organic vine/thorn SVG overlay — queer-utopia texture */
     .bg-vines {
       position: fixed; inset: 0; z-index: -2;
-      opacity: 0.18;
+      opacity: 0.22;
       pointer-events: none;
-      mix-blend-mode: screen;
+      mix-blend-mode: multiply;
     }
 
     /* 3. Soft grain for depth */
@@ -220,7 +221,7 @@
   <div class="bg-gradient"></div>
   <svg class="bg-vines" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <!-- Abstract organic vines inspired by the queer-utopia poster texture -->
-    <g fill="none" stroke="#f3e3ec" stroke-width="1.2" stroke-linecap="round">
+    <g fill="none" stroke="#3a1e5a" stroke-width="1.2" stroke-linecap="round">
       <path d="M -50 180 C 180 120, 360 260, 540 180 S 820 80, 1000 220 S 1340 300, 1650 160" opacity="0.5"/>
       <path d="M -50 340 C 220 410, 420 320, 600 400 S 920 520, 1120 420 S 1460 320, 1650 440" opacity="0.4"/>
       <path d="M -50 560 C 160 620, 380 540, 560 640 S 860 760, 1080 660 S 1420 540, 1650 680" opacity="0.5"/>
