@@ -8,7 +8,7 @@ compatibility_date = "2025-01-01"
 CONTENTFUL_SPACE_ID    = "cw431yrphuse"
 CONTENTFUL_ENVIRONMENT = "master"
 CONTENTFUL_LOCALE      = "en-US"
-ALLOWED_ORIGIN         = "https://ilonae.github.io"
+ALLOWED_ORIGIN         = "https://kreativkraftwerk.com"
 
 # Secrets — DO NOT commit. Set them separately:
 #   npx wrangler secret put CONTENTFUL_CMA_TOKEN
