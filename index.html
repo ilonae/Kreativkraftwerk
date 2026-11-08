@@ -1,18 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="./favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="description" content="KreativKraftwerk — An interdisciplinary arts collective based in Berlin" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <title>KreativKraftwerk</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="./src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KreativKraftwerk — Coming Soon</title>
+  <meta name="description" content="A new chapter from the Berlin-based interdisciplinary arts collective is on the way." />
+
+  <style>
+    /* ─── Tokens ─── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    :root {
+      --bg-0:         #4a2e6c;        /* muted violet */
+      --bg-1:         #6e4a92;        /* lavender-violet */
+      --bg-2:         #9478b0;        /* pale lavender */
+      --ink:          #f6ecf2;        /* cream pink */
+      --ink-muted:    rgba(246, 236, 242, 0.65);
+      --ink-faint:    rgba(246, 236, 242, 0.25);
+      --ink-dark:     #2a0f3a;        /* for text on light orb areas */
+      --vine:         #3a1e5a;        /* darker vine strokes for paler bg */
+      --pink:         #E8006F;        /* kkw brand */
+      --peach:        #ffb088;
+      --magenta:      #d8468f;
+      --orb-core:     #ffd4b0;
+      --orb-mid:      #ec7fa6;
+      --orb-outer:    #8a5fa8;
+      --track-label:  0.12em;
+    }
+
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg-0);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ─── Background layers (bottom to top) ─── */
+
+    /* 1. Radial plum gradient base */
+    .bg-gradient {
+      position: fixed; inset: 0; z-index: -3;
+      background:
+        radial-gradient(ellipse 80% 60% at 30% 20%, var(--bg-2) 0%, transparent 60%),
+        radial-gradient(ellipse 100% 80% at 70% 90%, var(--bg-1) 0%, transparent 70%),
+        linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+    }
+
+    /* 2. Organic vine/thorn SVG overlay — queer-utopia texture */
+    .bg-vines {
+      position: fixed; inset: 0; z-index: -2;
+      opacity: 0.22;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+
+    /* 3. Soft grain for depth */
+    .bg-grain {
+      position: fixed; inset: 0; z-index: -1;
+      opacity: 0.4;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+    }
+
+    /* 4. The glowing orb — centered behind the headline */
+    .orb {
+      position: absolute;
+      left: 50%;
+      top: 38%;
+      transform: translate(-50%, -50%);
+      width: min(140vw, 1400px);
+      height: min(140vw, 1400px);
+      max-height: 85vh;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 50% 45%,
+        var(--orb-core) 0%,
+        var(--orb-mid) 28%,
+        var(--orb-outer) 60%,
+        transparent 72%
+      );
+      filter: blur(8px);
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .orb::after {
+      /* Soft inner glow highlight */
+      content: "";
+      position: absolute;
+      inset: 18% 22% 42% 22%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 30%, rgba(255,235,210,0.4), transparent 70%);
+      filter: blur(20px);
+    }
+
+    /* ─── Layout ─── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 32px 32px;
+    }
+
+    .wordmark {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .wordmark .brand {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .wordmark .brand .u {
+      display: inline-block;
+      width: 10px;
+      margin-right: 8px;
+      vertical-align: -1px;
+    }
+    .wordmark .nav {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    .wordmark .nav:hover { color: var(--pink); }
+
+    /* Hero — massive "COMING SOON" */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      padding: 60px 0 40px;
+    }
+    .hero h1 {
+      font-size: clamp(64px, 16vw, 260px);
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+      margin: 0;
+      color: var(--ink-dark);
+      text-transform: uppercase;
+      mix-blend-mode: screen;
+      /* The "screen" blend lifts the dark ink against the orb/vines,
+         creating the overlapping-translucent-type effect from the poster. */
+    }
+
+    /* Subhead + description row */
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-top: 48px;
+    }
+    @media (min-width: 720px) {
+      .meta { grid-template-columns: 1fr 1fr; gap: 64px; }
+    }
+    .meta .lede {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      line-height: 1.4;
+      color: var(--ink);
+      margin: 0;
+      max-width: 22ch;
+    }
+    .meta .copy {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--ink-muted);
+      margin: 0;
+      max-width: 48ch;
+    }
+    .meta .copy strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* Footer micro-credit */
+    .footer {
+      margin-top: 72px;
+      padding-top: 28px;
+      border-top: 1px solid var(--ink-faint);
+      font-size: 10px;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      text-align: center;
+    }
+
+    /* Small screens — tighten padding */
+    @media (max-width: 640px) {
+      .page { padding: 20px 20px 24px; }
+      .hero { padding: 40px 0 20px; }
+      .meta { margin-top: 32px; }
+      .footer { margin-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background layers -->
+  <div class="bg-gradient"></div>
+  <svg class="bg-vines" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Abstract organic vines inspired by the queer-utopia poster texture -->
+    <g fill="none" stroke="#3a1e5a" stroke-width="1.2" stroke-linecap="round">
+      <path d="M -50 180 C 180 120, 360 260, 540 180 S 820 80, 1000 220 S 1340 300, 1650 160" opacity="0.5"/>
+      <path d="M -50 340 C 220 410, 420 320, 600 400 S 920 520, 1120 420 S 1460 320, 1650 440" opacity="0.4"/>
+      <path d="M -50 560 C 160 620, 380 540, 560 640 S 860 760, 1080 660 S 1420 540, 1650 680" opacity="0.5"/>
+      <path d="M -50 820 C 220 760, 420 880, 620 800 S 940 700, 1140 820 S 1460 920, 1650 820" opacity="0.4"/>
+      <!-- Thorn-like crosshatches -->
+      <path d="M 220 160 l -12 -22 M 220 160 l 10 -22 M 220 160 l 18 10"/>
+      <path d="M 510 220 l -14 -20 M 510 220 l 12 -20 M 510 220 l 22 8"/>
+      <path d="M 820 320 l -12 -24 M 820 320 l 14 -22 M 820 320 l 20 12"/>
+      <path d="M 1150 240 l -16 -22 M 1150 240 l 10 -24 M 1150 240 l 22 10"/>
+      <path d="M 340 460 l -14 -20 M 340 460 l 12 -22 M 340 460 l 20 8"/>
+      <path d="M 740 580 l -12 -22 M 740 580 l 14 -20 M 740 580 l 22 10"/>
+      <path d="M 1050 520 l -14 -22 M 1050 520 l 12 -24 M 1050 520 l 20 8"/>
+      <path d="M 480 740 l -12 -22 M 480 740 l 14 -20 M 480 740 l 22 10"/>
+      <path d="M 920 860 l -14 -20 M 920 860 l 12 -22 M 920 860 l 20 8"/>
+      <path d="M 1280 760 l -12 -24 M 1280 760 l 14 -20 M 1280 760 l 22 12"/>
+    </g>
+  </svg>
+  <div class="bg-grain"></div>
+  <div class="orb" aria-hidden="true"></div>
+
+  <!-- Page -->
+  <div class="page">
+
+    <!-- Header -->
+    <header class="wordmark">
+      <a class="brand" href="./">KREATIVKRAFTWERK</a>
+      <a class="nav" href="./">Home</a>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Coming<br>Soon</h1>
+
+      <div class="meta">
+        <p class="lede">A new chapter from the collective is on the way.</p>
+        <p class="copy">
+          We're putting the final touches on the next iteration of
+          <strong>KreativKraftwerk</strong> — a Berlin-based interdisciplinary
+          arts collective working across art, design, architecture, technology
+          and the humanities.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">KreativKraftwerk · Berlin · 2026</footer>
+  </div>
+</body>
 </html>
