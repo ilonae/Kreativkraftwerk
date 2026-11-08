@@ -156,6 +156,55 @@
     .textarea { resize: vertical; min-height: 100px; line-height: 1.55; }
     .input::placeholder, .textarea::placeholder { color: var(--gray-300); }
 
+    /* File picker (portrait photo) */
+    .file-label {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid var(--black);
+      background: var(--white);
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+    .file-label:hover { border-color: var(--pink); }
+    .file-label .file-cta {
+      padding: 12px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--black);
+      white-space: nowrap;
+    }
+    .file-label .file-name {
+      flex: 1;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--gray-500);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .file-label.has-file .file-name { color: var(--black); }
+    .photo-remove {
+      margin-top: 8px;
+      background: none;
+      border: none;
+      color: var(--gray-500);
+      font-family: inherit;
+      font-size: 11px;
+      letter-spacing: var(--track-label);
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 0;
+    }
+    .photo-remove:hover { color: var(--pink); }
+    .photo-error {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #c00;
+    }
+
     /* Prefix wrapper for socials (e.g. instagram.com/) */
     .prefix-input {
       display: flex;
@@ -432,8 +481,9 @@
         Skip any fields you don't want to publish; empty fields simply won't appear on your card.
       </p>
       <p>
-        When you're done, use one of the send buttons at the bottom. To include a portrait photo,
-        <strong>attach it directly to the email</strong> — we'll pair it with your submission.
+        When you're done, click <strong>Submit profile</strong> — your details go straight into
+        our system for review. If you prefer email, the other buttons let you send the same
+        info as a message or JSON file.
       </p>
     </div>
   </section>
@@ -470,6 +520,21 @@
         <p class="section-help">One or two sentences on what you do and where you work from.</p>
         <div class="field">
           <textarea class="textarea" id="bio" name="bio" placeholder="Works at the intersection of…"></textarea>
+        </div>
+      </div>
+
+      <!-- PHOTO -->
+      <div class="section">
+        <span class="section-label">Portrait photo</span>
+        <p class="section-help">Optional. JPG, PNG, WebP or GIF. Max 10&nbsp;MB.</p>
+        <div class="field">
+          <label for="photo" class="file-label" id="photo-label">
+            <span class="file-cta">Choose file</span>
+            <span class="file-name" id="photo-name">No file selected</span>
+          </label>
+          <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden />
+          <button type="button" id="photo-remove" class="photo-remove" hidden>Remove</button>
+          <p class="photo-error" id="photo-error" hidden></p>
         </div>
       </div>
 
@@ -738,6 +803,65 @@
       }
     });
 
+    // ─── Photo picker ───
+    const photoInput  = document.getElementById("photo");
+    const photoLabel  = document.getElementById("photo-label");
+    const photoName   = document.getElementById("photo-name");
+    const photoRemove = document.getElementById("photo-remove");
+    const photoError  = document.getElementById("photo-error");
+    const pvPhoto     = document.getElementById("pv-photo");
+    const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
+    const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+
+    function showPhotoError(msg) {
+      if (!msg) {
+        photoError.hidden = true;
+        photoError.textContent = "";
+      } else {
+        photoError.hidden = false;
+        photoError.textContent = msg;
+      }
+    }
+
+    function clearPhoto() {
+      photoInput.value = "";
+      photoName.textContent = "No file selected";
+      photoLabel.classList.remove("has-file");
+      photoRemove.hidden = true;
+      // Reset preview card to the gradient placeholder
+      pvPhoto.innerHTML = '<div class="card-photo-placeholder"><div class="avatar"></div></div>';
+      showPhotoError("");
+    }
+
+    photoInput.addEventListener("change", () => {
+      const file = photoInput.files[0];
+      if (!file) { clearPhoto(); return; }
+
+      if (!ALLOWED_PHOTO_TYPES.includes(file.type.toLowerCase())) {
+        showPhotoError("Unsupported file type. Use JPG, PNG, WebP or GIF.");
+        clearPhoto();
+        return;
+      }
+      if (file.size > MAX_PHOTO_BYTES) {
+        showPhotoError(`File is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max is 10 MB.`);
+        clearPhoto();
+        return;
+      }
+      showPhotoError("");
+      photoName.textContent = file.name;
+      photoLabel.classList.add("has-file");
+      photoRemove.hidden = false;
+
+      // Show in preview card
+      const reader = new FileReader();
+      reader.onload = e => {
+        pvPhoto.innerHTML = `<img src="${e.target.result}" alt="" style="width:100%;height:100%;object-fit:cover;filter:grayscale(1);" />`;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    photoRemove.addEventListener("click", () => clearPhoto());
+
     // ─── "Add more socials" toggle ───
     const advanced = document.getElementById("advanced-socials");
     const toggle = document.getElementById("toggle-more");
@@ -884,14 +1008,32 @@
         if (!requireName(d)) return;
 
         submitBtn.disabled = true;
-        flashStatus("Submitting…");
+
+        const photoFile = photoInput.files[0] || null;
+        flashStatus(photoFile ? "Uploading photo + profile…" : "Submitting…");
 
         try {
-          const res = await fetch(SUBMIT_ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(buildPayload(d)),
-          });
+          let res;
+          if (photoFile) {
+            // Multipart path — includes binary photo + text fields.
+            const fd = new FormData();
+            fd.append("name", d.name);
+            if (d.field)   fd.append("field",   d.field);
+            if (d.contact) fd.append("contact", d.contact);
+            if (d.bio)     fd.append("bio",     d.bio);
+            d.hashtags.forEach(h => fd.append("hashtags[]", h));
+            d.socials.forEach(s => fd.append("socials[]",  s));
+            fd.append("photo", photoFile);
+            // Don't set Content-Type — the browser fills it with the right boundary.
+            res = await fetch(SUBMIT_ENDPOINT, { method: "POST", body: fd });
+          } else {
+            // JSON path — text only.
+            res = await fetch(SUBMIT_ENDPOINT, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(buildPayload(d)),
+            });
+          }
 
           if (res.ok) {
             flashStatus("Thanks — your profile has been submitted for review.", true);
@@ -899,6 +1041,7 @@
               document.getElementById("artist-form").reset();
               hashtags.length = 0;
               renderChips();
+              clearPhoto();
               updatePreview();
               submitBtn.disabled = false;
             }, 2500);
