@@ -25,6 +25,28 @@
 const MAX_PHOTO_BYTES = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
+// Pool of fallback gradients for cards without a portrait photo.
+// Tailwind classes — the safelist in tailwind.config.cjs keeps them all available.
+const FALLBACK_GRADIENTS = [
+  "from-rose-500 to-pink-400",
+  "from-pink-500 to-fuchsia-500",
+  "from-fuchsia-500 to-purple-500",
+  "from-violet-500 to-purple-500",
+  "from-purple-500 to-indigo-500",
+  "from-indigo-500 to-blue-500",
+  "from-sky-500 to-blue-500",
+  "from-cyan-500 to-sky-400",
+  "from-teal-500 to-emerald-400",
+  "from-emerald-500 to-teal-400",
+  "from-amber-400 to-orange-500",
+  "from-orange-500 to-red-500",
+  "from-red-500 to-rose-500",
+  "from-stone-500 to-stone-400",
+  "from-slate-500 to-slate-400",
+  "from-zinc-500 to-zinc-400",
+  "from-neutral-500 to-neutral-400",
+];
+
 export default {
   async fetch(request, env) {
     const corsHeaders = {
@@ -103,6 +125,11 @@ export default {
         },
       };
     }
+    // Always set a random gradient — used when no photo, or as a fallback
+    // if the admin later unlinks the photo asset.
+    fields.gradient = {
+      [locale]: FALLBACK_GRADIENTS[Math.floor(Math.random() * FALLBACK_GRADIENTS.length)],
+    };
 
     const entryRes = await fetch(
       `https://api.contentful.com/spaces/${spaceId}/environments/${environment}/entries`,
